@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Piano di Studio — 10 Giorni</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0e10;
+    --surface: #17171a;
+    --border: #2a2a2f;
+    --accent: #c8f135;
+    --accent2: #5b8aff;
+    --accent3: #ff6b6b;
+    --accent4: #ffb347;
+    --text: #f0f0f0;
+    --muted: #888;
+    --phase1: #5b8aff;
+    --phase2: #c8f135;
+    --phase3: #ff6b6b;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    min-height: 100vh;
+    padding: 40px 20px 80px;
+  }
+
+  header {
+    max-width: 900px;
+    margin: 0 auto 40px;
+    text-align: left;
+  }
+
+  .tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 4px 10px;
+    border-radius: 2px;
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(36px, 6vw, 72px);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -2px;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  h1 span { color: var(--accent); }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 13px;
+    letter-spacing: 0.05em;
+  }
+
+  /* Progress bar */
+  .progress-section {
+    max-width: 900px;
+    margin: 0 auto 40px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 20px 24px;
+  }
+
+  .progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .progress-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .progress-pct {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .progress-track {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 0.5s ease;
+  }
+
+  .progress-days {
+    display: flex;
+    gap: 6px;
+  }
+
+  .progress-day {
+    flex: 1;
+    height: 28px;
+    border-radius: 2px;
+    background: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+    position: relative;
+  }
+
+  .progress-day.done {
+    background: rgba(200, 241, 53, 0.15);
+    border-color: rgba(200, 241, 53, 0.3);
+    color: var(--accent);
+  }
+
+  .progress-day.today {
+    border-color: var(--accent);
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .progress-day.today::after {
+    content: '▼';
+    position: absolute;
+    bottom: -14px;
+    font-size: 8px;
+    color: var(--accent);
+  }
+
+  .stats-row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    max-width: 900px;
+    margin: 0 auto 50px;
+  }
+
+  .stat {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 20px 24px;
+    flex: 1;
+    min-width: 150px;
+  }
+
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  .legend {
+    max-width: 900px;
+    margin: 0 auto 40px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .legend-title {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-right: 4px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .phase-label {
+    max-width: 900px;
+    margin: 0 auto 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .phase-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .phase-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .phase-desc {
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .days-grid {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .day-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--border);
+    padding: 0;
+    transition: border-color 0.2s, background 0.2s;
+    cursor: pointer;
+  }
+
+  .day-card:hover { border-color: var(--accent2); }
+  .day-card.phase-1 { border-left-color: var(--phase1); }
+  .day-card.phase-2 { border-left-color: var(--phase2); }
+  .day-card.phase-3 { border-left-color: var(--phase3); }
+
+  .day-card.today-card {
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 1px rgba(200,241,53,0.2);
+  }
+
+  .today-badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #0e0e10;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 2px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+
+  .day-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 16px 20px;
+    user-select: none;
+  }
+
+  .day-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--muted);
+    min-width: 42px;
+    line-height: 1;
+  }
+
+  .day-card.phase-1 .day-num { color: var(--phase1); }
+  .day-card.phase-2 .day-num { color: var(--phase2); }
+  .day-card.phase-3 .day-num { color: var(--phase3); }
+
+  .day-info { flex: 1; }
+
+  .day-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .day-meta {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  .day-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+  }
+
+  .day-pills {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .pill {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 2px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  .pill.studio { border-color: var(--phase1); color: var(--phase1); }
+  .pill.ripasso { border-color: var(--phase2); color: var(--phase2); }
+  .pill.simulazione { border-color: var(--phase3); color: var(--phase3); }
+
+  /* Checkbox done */
+  .day-check {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .day-check input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+
+  .day-card.completed .day-num { opacity: 0.4; }
+  .day-card.completed .day-title { text-decoration: line-through; opacity: 0.5; }
+
+  .expand-icon {
+    font-size: 16px;
+    color: var(--muted);
+    transition: transform 0.2s;
+    min-width: 20px;
+    text-align: center;
+  }
+
+  .day-card.open .expand-icon { transform: rotate(180deg); }
+
+  .day-body {
+    display: none;
+    padding: 0 20px 20px 20px;
+    border-top: 1px solid var(--border);
+  }
+
+  .day-card.open .day-body { display: block; }
+
+  .sessions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  @media (max-width: 600px) { .sessions { grid-template-columns: 1fr; } }
+
+  .session {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    padding: 14px;
+  }
+
+  .session-time {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .session-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .session-items {
+    list-style: none;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+
+  .session-items li::before {
+    content: '→ ';
+    color: var(--accent);
+  }
+
+  .spaced-rep-box {
+    margin-top: 14px;
+    background: rgba(200, 241, 53, 0.04);
+    border: 1px solid rgba(200, 241, 53, 0.2);
+    padding: 12px 14px;
+  }
+
+  .spaced-rep-title {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+
+  .spaced-rep-items {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+
+  .tip-box {
+    margin-top: 14px;
+    background: rgba(91, 138, 255, 0.04);
+    border: 1px solid rgba(91, 138, 255, 0.2);
+    padding: 12px 14px;
+    font-size: 12px;
+    color: #aac0ff;
+    line-height: 1.6;
+  }
+
+  .tip-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .sr-section {
+    max-width: 900px;
+    margin: 60px auto 0;
+  }
+
+  .sr-section h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+
+  .sr-section p {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  .sr-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+  }
+
+  .sr-table th {
+    text-align: left;
+    padding: 8px 8px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sr-table th.today-col {
+    color: var(--accent);
+  }
+
+  .sr-table td {
+    padding: 8px 8px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+
+  .sr-table td.today-col {
+    background: rgba(200,241,53,0.04);
+  }
+
+  .sr-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+  .pdf-name {
+    color: var(--text);
+    font-weight: 500;
+    font-size: 11px;
+    max-width: 220px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 2px;
+    background: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    color: var(--bg);
+    font-weight: 700;
+    margin: auto;
+  }
+
+  .dot.active { background: var(--phase2); }
+  .dot.study { background: var(--phase1); }
+  .dot.final { background: var(--phase3); }
+
+  .techniques {
+    max-width: 900px;
+    margin: 50px auto 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+  }
+
+  @media (max-width: 700px) { .techniques { grid-template-columns: 1fr; } }
+
+  .technique {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 20px;
+  }
+
+  .technique-icon { font-size: 24px; margin-bottom: 10px; }
+
+  .technique h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .technique p {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  footer {
+    max-width: 900px;
+    margin: 50px auto 0;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="tag">Piano personalizzato · aggiornato 22 apr 2026</div>
+  <h1>10 Giorni.<br><span>19 PDF.</span><br>1 Orale.</h1>
+  <p class="subtitle">Inizio: 22 aprile 2026 · Spaced Repetition · Esame Orale</p>
+</header>
+
+<!-- Progress Tracker -->
+<div class="progress-section">
+  <div class="progress-header">
+    <span class="progress-label">Avanzamento complessivo</span>
+    <span class="progress-pct" id="pctLabel">0%</span>
+  </div>
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+  </div>
+  <div class="progress-days" id="progressDays"></div>
+</div>
+
+<div class="stats-row">
+  <div class="stat">
+    <div class="stat-num">10</div>
+    <div class="stat-label">Giorni totali</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">19</div>
+    <div class="stat-label">PDF da studiare</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">~2</div>
+    <div class="stat-label">PDF al giorno (fase 1)</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">80+</div>
+    <div class="stat-label">Ore disponibili</div>
+  </div>
+</div>
+
+<div class="legend">
+  <span class="legend-title">Fasi:</span>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--phase1)"></div> Fase 1 — Studio</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--phase2)"></div> Fase 2 — Consolidamento</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--phase3)"></div> Fase 3 — Simulazione</div>
+</div>
+
+<div class="days-grid" id="days">
+
+  <!-- FASE 1 -->
+  <div class="phase-label">
+    <span class="phase-title" style="color:var(--phase1)">Fase 1 — Studio intensivo</span>
+    <div class="phase-line"></div>
+    <span class="phase-desc">Giorni 1–7 · Prima lettura + schemi</span>
+  </div>
+
+  <!-- Day 1 -->
+  <div class="day-card phase-1" data-day="1" onclick="toggle(this)">
+    <div class="day-header">
+      <div class="day-num">01</div>
+      <div class="day-info">
+        <div class="day-title">Kick-off: Prima valutazione + PDF 1–2 <span class="today-badge" id="badge-1" style="display:none">OGGI</span></div>
+        <div class="day-meta">Mercoledì 22 aprile · Mappatura del materiale</div>
+      </div>
+      <div class="day-right">
+        <div class="day-pills">
+          <span class="pill studio">Studio</span>
+          <span class="pill ripasso">Organizzazione</span>
+        </div>
+        <label class="day-check" onclick="event.stopPropagation()">
+          <input type="checkbox" data-day="1" onchange="markDone(this)"> completato
+        </label>
+      </div>
+      <div class="expand-icon">▾</div>
+    </div>
+    <div class="day-body">
+      <div class="sessions">
+        <div class="session">
+          <div class="session-time">Mattina · 9:00–13:00</div>
+          <div class="session-title">Mappatura generale (2h) + PDF 1</div>
+          <ul class="session-items">
+            <li>Scorri tutti i 19 PDF (5–10 min ciascuno)</li>
+            <li>Annota: lunghezza, difficoltà, argomento</li>
+            <li>Prioritizza da 1 (cruciale) a 3 (secondario)</li>
+            <li>Prima lettura completa PDF 1 (Introduzione al corso) + schema</li>
+          </ul>
+        </div>
+        <div class="session">
+          <div class="session-time">Pomeriggio · 14:30–18:30</div>
+          <div class="session-title">PDF 2 — Rischio biologico</div>
+          <ul class="session-items">
+            <li>Prima lettura: rischio biologico, classi agenti, DPI</li>
+            <li>Crea schema/mappa concettuale</li>
+            <li>Collegamento concetti PDF 1 ↔ PDF 2</li>
+          </ul>
+        </div>
+        <div class="session">
+          <div class="session-time">Sera · 19:30–21:30</div>
+          <div class="session-title">Rielaborazione attiva</div>
+          <ul class="session-items">
+            <li>Ripassi schemi PDF 1 e 2 ad alta voce</li>
+            <li>Scrivi 5 domande possibili per ciascuno</li>
+            <li>Flashcard dei concetti chiave</li>
+          </ul>
+        </div>
+      </div>
+      <div class="spaced-rep-box">
+        <div class="spaced-rep-title">⟳ Spaced Repetition</div>
+        <div class="spaced-rep-items">Primo incontro con PDF 1 e 2. Rivedremo PDF 1 domani sera (intervallo 1 giorno), PDF 2 dopodomani sera (intervallo 2 giorni).</div>
+      </div>
+      <div class="tip-box">
+        <span class="tip-label">💡 Consiglio</span>
+        La mappatura iniziale è fondamentale: capire il peso relativo dei PDF ti permette di allocare il tempo giusto. Non saltarla.
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 2 -->
+  <div class="day-card phase-1" data-day="2" onclick="toggle(this)">
+    <div class="day-header">
+      <div class="day-num">02</div>
+      <div class="day-info">
+        <div class="day-title">PDF 3–4 + Primo ripasso PDF 1 <span class="today-badge" id="badge-2" style="display:none">OGGI</span></div>
+        <div class="day-meta">Giovedì 23 aprile · Ritmo di crociera</div>
+      </div>
+      <div class="day-right">
+        <div class="day-pills">
+          <span class="pill studio">Studio</span>
+          <span class="pill ripasso">Ripasso ×1</span>
+        </div>
+        <label class="day-check" onclick="event.stopPropagation()">
+          <input type="checkbox" data-day="2" onchange="markDone(this)"> completato
+        </label>
+      </div>
+      <div class="expand-icon">▾</div>
+    </div>
+    <div class="day-body">
+      <div class="sessions">
+        <div class="session">
+          <div class="session-time">Mattina · 9:00–13:00</div>
+          <div class="session-title">PDF 3 — Struttura cellula batterica</div>
+          <ul class="session-items">
+            <li>Strutture obbligatorie: citoplasma, DNA, membrana, parete</li>
+            <li>Strutture facoltative: capsula, pili, flagelli</li>
+            <li>Disegna la cellula batterica a mano + schema</li>
+          </ul>
+        </div>
+        <div class="session">
+          <div class="session-time">Pomeriggio · 14:30–18:30</div>
+          <div class="session-title">PDF 3.1 — Coltivazione e identificazione</div>
+          <ul class="session-items">
+            <li>Tecniche di coltura in vitro, terreni di coltura</li>
+            <li>Schema e mappa concettuale</li>
+            <li>Connessioni con PDF 3</li>
+          </ul>
+        </div>
+        <div class="session">
+          <div class="session-time">Sera · 19:30–21:30</div>
+          <div class="session-title">⟳ Ripasso PDF 1</div>
+          <ul class="session-items">
+            <li>Rileggi solo i tuoi schemi (NON il PDF)</li>
+            <li>Esponi i concetti ad alta voce senza guardare</li>
+            <li>Aggiorna le flashcard</li>
+          </ul>
+        </div>
+      </div>
+      <div class="spaced-rep-box">
+        <div class="spaced-rep-title">⟳ Spaced Repetition</div>
+        <div class="spaced-rep-items">Ripasso PDF 1 (intervallo +1g). Prossimo ripasso PDF 1: Giorno 4 (+2g). Prossimo ripasso PDF 2: Giorno 4 (+2g).</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 3 -->
+  <div class="day-card phase-1" data-day="3" onclick="toggle(this)">
+    <div class="day-header">
+      <div class="day-num">03</div>
+      <div class="day-info">
+        <div class="day-title">PDF 3.2 + 4 + Ripasso PDF 2 <span class="today-badge" id="badge-3" style="display:none">OGGI</span></div>
+        <div class="day-meta">Venerdì 25 aprile · In pieno ritmo</div>
+      </div>
+      <div class="day-right">
+        <div class="day-pills">
+          <span class="pill studio">Studio</span>
+          <span class="pill ripasso">Ripasso ×1</span>
+        </div>
+        <label class="day-check" onclick="event.stopPropagation()">
+          <input type="checkbox" data-day="3" onchange="markDone(this)"> completato
+        </label>
+      </div>
+      <div class="expand-icon">▾</div>
+    </div>
+    <div class="day-body">
+      <div class="sessions">
+        <div class="session">
+          <div class="session-time">Mattina · 9:00–13:00</div>
+          <div class="session-title">PDF 3.2 — Divisione cellulare e metabolismo</div>
+          <ul class="session-items">
+            <li>Curve di crescita: lag, log, stazionaria, morte</li>
+            <li>Metabolismi microbici</li>
+            <li>Disegna le curve di crescita a memoria</li>
+          </ul>
+        </div>
+        <div class="session">
+          <div class="session-time">Pomeriggio · 14:30–18:30</div>
+          <div class="session-title">PDF 4 — Patogenicità e virulenza</div>
+          <ul class="session-items">
+            <li>Fattori di virulenza: tossine, capsula, adesine</li>
+            <li>Rapporti ospite-microrganismo</li>
+            <li>Mappa connessioni con argomenti visti</li>
+          </ul>
+        </div>
+        <div class="session">
+          <div class="session-time">Sera · 19:30–21:30</div>
+          <div class="session-title">⟳ Ripasso PDF 2 + Flashcard PDF 3</div>
+          <ul class="session-items">
+            <li>Esponi PDF 2 (rischio biologico) ad alta voce</li>
+            <li>Ripassa flashcard PDF 3</li>
+          </ul>
+        </div>
+      </div>
+      <div class="spaced-rep-box">
+        <div class="spaced-rep-title">⟳ Spaced Repetition</div>
+        <div class="spaced-rep-items">Ripasso PDF 2 (intervallo +2g). Domani: ripasso PDF 1 (intervallo +2g) e PDF 3 (+2g).</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 4 -->
+  <div class="day-card phase-1" data-day="4" onclick="toggle(this)">
+    <div class="day-header">
+      <div class="day-num">04</div>
+      <div class="day-info">
+        <div class="day-title">PDF 5 + 6.1 + Ripasso PDF 1, 3 <span class="today-badge" id="badge-4" style="display:none">OGGI</span></div>
+        <div class="day-meta">Sabato 26 aprile · La macchina gira</div>
+      </div>
+      <div class="day-right">
+        <div class="day-pills">
+          <span class="pill studio">Studio</span>
+          <span class="pill ripasso">Ripasso ×2</span>
+        </div>
+        <label class="day-check" onclick="event.stopPropagation()">
+          <input type="checkbox" data-day="4" onchange="markDone(this)"> completato
+        </label>
+      </div>
+      <div class="expand-icon">▾</div>
+    </div>
+    <div class="day-body">
+      <div class="sessions">
+        <div class="session">
+          <div class="session-time">Mattina · 9:00–13:00</div>
+          <div class="session-title">PDF 5 — Microbiota + Probiotici</div>
+          <ul class="session-items">
+            <li>Microbiota umano, eubiosi, disbiosi</li>
+            <li>Probiotici, prebiotici, postbiotici: differenze</li>
+            <li>Schema + domande da orale</li>
+          </ul>
+        </div>
+        <div class="session">
+          <div class="session-time">Pomeriggio · 14:30–18:30</div>
+          <div class="session-title">PDF 6.1 — Spore batteriche</div>
+          <ul class="session-items">
+            <li>Sporulazione: fasi, struttura, resistenza</li>
+            <li>Importanza in farmacia e sterilizzazione</li>
+            <li>⟳ Ripasso PDF 1 + PDF 3 (esposizione orale)</li>
+          </ul>
+        </div>
+        <div class="session">
+          <div class="session-time">Sera · 19:30–21:30</div>
+          <div class="session-title">Flashcard + connessioni tematiche</div>
+          <ul class="session-items">
+            <li>Aggiorna tutte le flashcard</li>
+            <li>Disegna mappa generale dei PDF studiati finora</li>
+          </ul>
+        </div>
+      </div>
+      <div class="spaced-rep-box">
+        <div class="spaced-rep-title">⟳ Spaced Repetition</div>
+        <div class="spaced-rep-items">Ripasso PDF 1 (2° volta, +2g). Ripasso PDF 3 (1° ripasso). Prossimi: PDF 2 e 4 domani.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 5 -->
+  <div class="day-card phase-1" data-day="5" onclick="toggle(this)">
+    <div class="day-header">
+      <div class="day-num">05</div>
+      <div class="day-info">
+        <div class="day-title">PDF 7 + 7.1 + Ripasso PDF 2, 4 <span class="today-badge" id="badge-5" style="display:none">OGGI</span></div>
+        <div class="day-meta">Domenica 27 aprile · Metà percorso</div>
+      </div>
+      <div class="day-right">
+        <div class="day-pills">
+          <span class="pill studio">Studio</span>
+          <span class="pill ripasso">Ripasso ×2</span>
+        </div>
+        <label class="day-check" onclick="event.stopPropagation()">
+          <input type="checkbox" data-day="5" onchange="markDone(this)"> completato
+        </label>
+      </div>
+      <div class="expand-icon">▾</div>
+    </div>
+    <div class="day-body">
+      <div class="sessions">
+        <div class="session">
+          <div class="session-time">Mattina · 9:00–13:00</div>
+          <div class="session-title">PDF 7 — VBNC e Biofilm</div>
+          <ul class="session-items">
+            <li>Forme L, batteri VBNC: cosa sono e perché importano</li>
+            <li>Biofilm: formazione, struttura, resistenza agli antibiotici</li>
+            <li>Schema biofilm + rilevanza clinica</li>
+          </ul>
+        </div>
+        <div class="session">
+          <div class="session-time">Pomeriggio · 14:30–18:30</div>
+          <div class="session-title">PDF 7.1 — Valutazione resistenze antibiotici</div>
+          <ul class="session-items">
+            <li>Sistemi di valutazione: MIC, antibiogramma, disco-diffusione</li>
+            <li>⟳ Ripasso PDF 2 + PDF 4 (esposizione orale)</li>
+            <li>Scrivi domande difficili su questi argomenti</li>
+          </ul>
+        </div>
+        <div class="session">
+          <div class="session-time">Sera · 19:30–21:00</div>
+          <div class="session-title">Pausa attiva + revisione schemi</div>
+          <ul class="session-items">
+            <li>Scorri velocemente tutti gli schemi fatti</li>
+            <li>Identifica argomenti "deboli"</li>
+          </ul>
+        </div>
+      </div>
+      <div class="spaced-rep-box">
+        <div class="spaced-rep-title">⟳ Spaced Repetition</div>
+        <div class="spaced-rep-items">Ripasso PDF 2 e 4. Sei a metà materiale. Domani: ripasso PDF 3.2, 5, 6.1 e nuovi PDF.</div>
+      </div>
+      <div class="tip-box">
+        <span class="tip-label">💡 Check di metà percorso</span>
+        Oggi fai un bilancio: quali argomenti senti fragili? Pianifica di dedicarci tempo extra nei giorni 6–7.
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 6 -->
+  <div class="day-card phase-1" data-day="6" onclick="toggle(this)">
+    <div class="day-header">
+      <div class="day-num">06</div>
+      <div class="day-info">
+        <div class="day-title">PDF 7.3 + 7-Chemio + Ripasso PDF 3.2, 5, 6.1 <span class="today-badge" id="badge-6" style="display:none">OGGI</span></div>
+        <div class="day-meta">Lunedì 28 aprile · Spinta finale studio</div>
+      </div>
+      <div class="day-right">
+        <div class="day-pills">
+          <span class="pill studio">Studio</span>
+          <span class="pill ripasso">Ripasso ×3</span>
+        </div>
+        <label class="day-check" onclick="event.stopPropagation()">
+          <input type="checkbox" data-day="6" onchange="markDone(this)"> completato
+        </label>
+      </div>
+      <div class="expand-icon">▾</div>
+    </div>
+    <div class="day-body">
+      <div class="sessions">
+        <div class="session">
+          <div class="session-time">Mattina · 9:00–13:00</div>
+          <div class="session-title">PDF 7.3 — Resistenze e ricombinazione genica</div>
+          <ul class="session-items">
+            <li>Trasformazione, coniugazione, trasduzione</li>
+            <li>Conversione lisogenica</li>
+            <li>Schema: come si trasmette la resistenza tra batteri</li>
+          </ul>
+        </div>
+        <div class="session">
+          <div class="session-time">Pomeriggio · 14:30–19:00</div>
+          <div class="session-title">PDF 7-Chemioantibiotic — Resistenza e farmaci</div>
+          <ul class="session-items">
+            <li>Tipi antibiotici, meccanismi d'azione</li>
+            <li>Meccanismi resistenza batterica (enzimi, efflux pump, target)</li>
+            <li>⟳ Ripasso PDF 3.2 + 5 + 6.1 (esposizione orale)</li>
+          </ul>
+        </div>
+        <div class="session">
+          <div class="session-time">Sera · 19:30–21:00</div>
+          <div class="session-title">Ripasso flashcard PDF 4–7.1</div>
+          <ul class="session-items">
+            <li>Flashcard rapide in sequenza</li>
+            <li>Focus sui meccanismi di resistenza</li>
+          </ul>
+        </div>
+      </div>
+      <div class="spaced-rep-box">
+        <div class="spaced-rep-title">⟳ Spaced Repetition</div>
+        <div class="spaced-rep-items">Ripasso PDF 3.2, 5, 6.1 (intervallo ~3g). I PDF 1–4 tornano in revisione al Giorno 8.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 7 -->
+  <div class="day-card phase-1" data-day="7" onclick="toggle(this)">
+    <div class="day-header">
+      <div class="day-num">07</div>
+      <div class="day-info">
+        <div class="day-title">PDF 10–13 + 17–18 · Sterilizzazione, vaccini, virus <span class="today-badge" id="badge-7" style="display:none">OGGI</span></div>
+        <div class="day-meta">Martedì 29 aprile · Ultimo giorno di studio nuovo</div>
+      </div>
+      <div class="day-right">
+        <div class="day-pills">
+          <span class="pill studio">Studio</span>
+          <span class="pill ripasso">Ripasso ×2</span>
+        </div>
+        <label class="day-check" onclick="event.stopPropagation()">
+          <input type="checkbox" data-day="7" onchange="markDone(this)"> completato
+        </label>
+      </div>
+      <div class="expand-icon">▾</div>
+    </div>
+    <div class="day-body">
+      <div class="sessions">
+        <div class="session">
+          <div class="session-time">Mattina · 9:00–13:00</div>
+          <div class="session-title">PDF 10 + 11 + 12 — Vaccini, nosocomiali, sterilizzazione</div>
+          <ul class="session-items">
+            <li>Profilassi e vaccini: attivi vs passivi</li>
+            <li>Infezioni nosocomiali, IMA, patogeni opportunisti</li>
+            <li>Sterilizzazione CTF24: metodi fisici e chimici</li>
+          </ul>
+        </div>
+        <div class="session">
+          <div class="session-time">Pomeriggio · 14:00–17:00</div>
+          <div class="session-title">PDF 13 + 17 + 18 — Cosmetologia, batteriofagi, virus</div>
+          <ul class="session-items">
+            <li>Microbiologia cosmetica: parametri chiave</li>
+            <li>Batteriofagi: ciclo litico vs lisogeno</li>
+            <li>Struttura e classificazione virus</li>
+          </ul>
+        </div>
+        <div class="session">
+          <div class="session-time">Sera · 17:30–21:00</div>
+          <div class="session-title">PDF One Health + Saggi + ⟳ Ripasso PDF 7, 7.1</div>
+          <ul class="session-items">
+            <li>Salute unica (One Health): concetto e implicazioni</li>
+            <li>Saggi e dosaggi microbiologici: principi base</li>
+            <li>Esposizione orale PDF 7 e 7.1</li>
+            <li>Grande mappa concettuale dell'intero programma</li>
+          </ul>
+        </div>
+      </div>
+      <div class="spaced-rep-box">
+        <div class="spaced-rep-title">⟳ Spaced Repetition</div>
+        <div class="spaced-rep-items">Hai studiato tutto il materiale. Da domani inizia la fase 2: nessun PDF nuovo, solo ripasso e consolidamento sistematico.</div>
+      </div>
+      <div class="tip-box">
+        <span class="tip-label">🎯 Milestone</span>
+        Prima lettura di tutti i 19 PDF completata. Ora il lavoro vero: consolidare e simulare.
+      </div>
+    </div>
+  </div>
+
+  <!-- FASE 2 -->
+  <div class="phase-label" style="margin-top:24px">
+    <span class="phase-title" style="color:var(--phase2)">Fase 2 — Consolidamento</span>
+    <div class="phase-line"></div>
+    <span class="phase-desc">Giorni 8–9 · Ripasso sistematico + esposizione orale</span>
+  </div>
+
+  <!-- Day 8 -->
+  <div class="day-card phase-2" data-day="8" onclick="toggle(this)">
+    <div class="day-header">
+      <div class="day-num">08</div>
+      <div class="day-info">
+        <div class="day-title">Ripasso PDF 1–10 · Prima metà programma <span class="today-badge" id="badge-8" style="display:none">OGGI</span></div>
+        <div class="day-meta">Mercoledì 30 aprile · Solo ripasso, niente materiale nuovo</div>
+      </div>
+      <div class="day-right">
+        <div class="day-pills">
+          <span class="pill ripasso">Ripasso ×10</span>
+          <span class="pill simulazione">Esposizione orale</span>
+        </div>
+        <label class="day-check" onclick="event.stopPropagation()">
+          <input type="checkbox" data-day="8" onchange="markDone(this)"> completato
+        </label>
+      </div>
+      <div class="expand-icon">▾</div>
+    </div>
+    <div class="day-body">
+      <div class="sessions">
+        <div class="session">
+          <div class="session-time">Mattina · 9:00–13:00</div>
+          <div class="session-title">PDF 1–5: Esposizione orale</div>
+          <ul class="session-items">
+            <li>~45 min per PDF: esponi senza guardare</li>
+            <li>Poi controlla gli schemi e correggi</li>
+            <li>Segna i punti ancora incerti</li>
+          </ul>
+        </div>
+        <div class="session">
+          <div class="session-time">Pomeriggio · 14:30–18:30</div>
+          <div class="session-title">PDF 6.1–10: Esposizione orale</div>
+          <ul class="session-items">
+            <li>Stesso metodo: esponi → controlla → correggi</li>
+            <li>Collega gli argomenti tra loro</li>
+          </ul>
+        </div>
+        <div class="session">
+          <div class="session-time">Sera · 19:30–21:30</div>
+          <div class="session-title">Punti critici PDF 1–10</div>
+          <ul class="session-items">
+            <li>Torna SOLO sui punti segnati come incerti</li>
+            <li>Pratica le domande difficili</li>
+          </ul>
+        </div>
+      </div>
+      <div class="spaced-rep-box">
+        <div class="spaced-rep-title">⟳ Spaced Repetition</div>
+        <div class="spaced-rep-items">PDF 1–4: 3° ripasso (intervallo ~4g). PDF 5–10: 2° ripasso (intervallo 2–3g). Il cervello consolida le connessioni tra argomenti.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 9 -->
+  <div class="day-card phase-2" data-day="9" onclick="toggle(this)">
+    <div class="day-header">
+      <div class="day-num">09</div>
+      <div class="day-info">
+        <div class="day-title">Ripasso PDF 11–19 · Seconda metà programma <span class="today-badge" id="badge-9" style="display:none">OGGI</span></div>
+        <div class="day-meta">Giovedì 1 maggio · Completamento consolidamento</div>
+      </div>
+      <div class="day-right">
+        <div class="day-pills">
+          <span class="pill ripasso">Ripasso ×9</span>
+          <span class="pill simulazione">Esposizione orale</span>
+        </div>
+        <label class="day-check" onclick="event.stopPropagation()">
+          <input type="checkbox" data-day="9" onchange="markDone(this)"> completato
+        </label>
+      </div>
+      <div class="expand-icon">▾</div>
+    </div>
+    <div class="day-body">
+      <div class="sessions">
+        <div class="session">
+          <div class="session-time">Mattina · 9:00–13:00</div>
+          <div class="session-title">PDF 11–15: Esposizione orale</div>
+          <ul class="session-items">
+            <li>Esponi → controlla → correggi</li>
+            <li>Domande possibili e risposte articolate</li>
+          </ul>
+        </div>
+        <div class="session">
+          <div class="session-time">Pomeriggio · 14:30–18:30</div>
+          <div class="session-title">PDF 16–19: Esposizione orale</div>
+          <ul class="session-items">
+            <li>Stesso metodo</li>
+            <li>Domande di collegamento trasversale</li>
+          </ul>
+        </div>
+        <div class="session">
+          <div class="session-time">Sera · 19:00–21:00</div>
+          <div class="session-title">Lacune + ripasso flashcard completo</div>
+          <ul class="session-items">
+            <li>Tutte le flashcard in sequenza rapida</li>
+            <li>Lista delle 10 domande più difficili → Giorno 10</li>
+          </ul>
+        </div>
+      </div>
+      <div class="spaced-rep-box">
+        <div class="spaced-rep-title">⟳ Spaced Repetition</div>
+        <div class="spaced-rep-items">PDF 11–14: 2° ripasso (intervallo ~3g). PDF 15–19: 2° ripasso (intervallo 2g). Domani: simulazione orale completa.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FASE 3 -->
+  <div class="phase-label" style="margin-top:24px">
+    <span class="phase-title" style="color:var(--phase3)">Fase 3 — Simulazione & ripasso finale</span>
+    <div class="phase-line"></div>
+    <span class="phase-desc">Giorno 10 · Solo esposizione orale simulata</span>
+  </div>
+
+  <!-- Day 10 -->
+  <div class="day-card phase-3" data-day="10" onclick="toggle(this)">
+    <div class="day-header">
+      <div class="day-num">10</div>
+      <div class="day-info">
+        <div class="day-title">Simulazione orale completa <span class="today-badge" id="badge-10" style="display:none">OGGI</span></div>
+        <div class="day-meta">Venerdì 2 maggio · Target esame 🎯</div>
+      </div>
+      <div class="day-right">
+        <div class="day-pills">
+          <span class="pill simulazione">Simulazione</span>
+          <span class="pill ripasso">Ripasso finale</span>
+        </div>
+        <label class="day-check" onclick="event.stopPropagation()">
+          <input type="checkbox" data-day="10" onchange="markDone(this)"> completato
+        </label>
+      </div>
+      <div class="expand-icon">▾</div>
+    </div>
+    <div class="day-body">
+      <div class="sessions">
+        <div class="session">
+          <div class="session-time">Mattina · 9:00–12:00</div>
+          <div class="session-title">Simulazione orale × 3 round</div>
+          <ul class="session-items">
+            <li>Fai pescare domande a caso da qualcuno (o da te)</li>
+            <li>Rispondi come all'esame: in piedi, voce chiara</li>
+            <li>Cronometra: max 5 min per risposta</li>
+          </ul>
+        </div>
+        <div class="session">
+          <div class="session-time">Primo pomeriggio · 14:00–16:00</div>
+          <div class="session-title">Solo i punti deboli</div>
+          <ul class="session-items">
+            <li>Le 10 domande difficili della lista di ieri</li>
+            <li>Nessun PDF nuovo, solo consolidamento</li>
+          </ul>
+        </div>
+        <div class="session">
+          <div class="session-time">Tardo pomeriggio · 16:00–18:00</div>
+          <div class="session-title">Riposo mentale attivo</div>
+          <ul class="session-items">
+            <li>Passeggiata all'aria aperta</li>
+            <li>Rileggi solo i titoli degli schemi (niente studio)</li>
+            <li>Dormi almeno 8 ore</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tip-box">
+        <span class="tip-label">🏁 Giorno dell'esame</span>
+        Non studiare nelle ultime 3 ore prima dell'esame. Il recupero e la calma valgono più di qualsiasi ripasso last-minute. Hai lavorato bene: fidati del tuo metodo.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Spaced Rep Schedule Table -->
+<div class="sr-section">
+  <h2>Schema Spaced Repetition</h2>
+  <p>Ogni PDF viene rivisto in momenti precisi per massimizzare la ritenzione. ■ = Studio iniziale &nbsp; ◆ = Ripasso</p>
+  <table class="sr-table">
+    <thead>
+      <tr id="srHeader">
+        <th>PDF</th>
+        <th>G1<br><span style="font-size:9px;color:var(--muted)">22/4</span></th>
+        <th>G2<br><span style="font-size:9px;color:var(--muted)">23/4</span></th>
+        <th>G3<br><span style="font-size:9px;color:var(--muted)">25/4</span></th>
+        <th>G4<br><span style="font-size:9px;color:var(--muted)">26/4</span></th>
+        <th>G5<br><span style="font-size:9px;color:var(--muted)">27/4</span></th>
+        <th>G6<br><span style="font-size:9px;color:var(--muted)">28/4</span></th>
+        <th>G7<br><span style="font-size:9px;color:var(--muted)">29/4</span></th>
+        <th>G8<br><span style="font-size:9px;color:var(--muted)">30/4</span></th>
+        <th>G9<br><span style="font-size:9px;color:var(--muted)">1/5</span></th>
+        <th>G10<br><span style="font-size:9px;color:var(--muted)">2/5</span></th>
+      </tr>
+    </thead>
+    <tbody id="srTable"></tbody>
+  </table>
+</div>
+
+<!-- Techniques -->
+<div class="sr-section" style="margin-top:50px">
+  <h2>Tecniche consigliate</h2>
+  <p>Per un esame orale, queste tre tecniche ti danno il massimo ritorno.</p>
+</div>
+<div class="techniques">
+  <div class="technique">
+    <div class="technique-icon">🗣️</div>
+    <h3>Feynman Technique</h3>
+    <p>Spiega ogni concetto come se dovessi insegnarlo a qualcuno che non lo conosce. Se non riesci a spiegarlo in modo semplice, non lo hai capito davvero. Torna al PDF solo per colmare le lacune emerse.</p>
+  </div>
+  <div class="technique">
+    <div class="technique-icon">🃏</div>
+    <h3>Active Recall + Flashcard</h3>
+    <p>Non rileggere passivamente: chiudi il PDF, prova a ricordare. Usa flashcard fisiche o Anki con domanda → risposta. Il retrieval attivo è 2–3× più efficace della rilettura per gli orali.</p>
+  </div>
+  <div class="technique">
+    <div class="technique-icon">🗺️</div>
+    <h3>Mappe concettuali</h3>
+    <p>Crea una mappa visiva per ogni PDF e una "super-mappa" globale che connette tutti i 19. I professori agli orali adorano le connessioni tra argomenti: mostrale esplicitamente.</p>
+  </div>
+</div>
+
+<footer>Piano aggiornato al 22 aprile 2026 · 10 giorni · 19 PDF · Esame orale · 8+ ore/giorno</footer>
+
+<script>
+// ---- Toggle ----
+function toggle(card) {
+  card.classList.toggle('open');
+}
+
+// ---- Today detection ----
+// Day 1 = 22 apr 2026
+const startDate = new Date(2026, 3, 22); // month is 0-indexed
+const today = new Date();
+today.setHours(0,0,0,0);
+
+// Day offsets (skip 24 apr = fest.)
+const dayDates = [
+  new Date(2026,3,22), // G1
+  new Date(2026,3,23), // G2
+  new Date(2026,3,25), // G3 (skip 24/4 festivita)
+  new Date(2026,3,26), // G4
+  new Date(2026,3,27), // G5
+  new Date(2026,3,28), // G6
+  new Date(2026,3,29), // G7
+  new Date(2026,3,30), // G8
+  new Date(2026,4,1),  // G9
+  new Date(2026,4,2),  // G10
+];
+
+let todayDayNum = -1;
+dayDates.forEach((d, i) => {
+  if (d.getTime() === today.getTime()) todayDayNum = i + 1;
+});
+
+if (todayDayNum > 0) {
+  const badge = document.getElementById('badge-' + todayDayNum);
+  if (badge) badge.style.display = '';
+  const card = document.querySelector('[data-day="' + todayDayNum + '"]');
+  if (card) {
+    card.classList.add('today-card', 'open');
+    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+// ---- Progress tracker ----
+const STORAGE_KEY = 'microbio_done_days';
+let doneDays = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+
+function buildProgressBar() {
+  const container = document.getElementById('progressDays');
+  container.innerHTML = '';
+  for (let d = 1; d <= 10; d++) {
+    const el = document.createElement('div');
+    el.className = 'progress-day';
+    el.textContent = d;
+    if (doneDays.includes(d)) el.classList.add('done');
+    if (d === todayDayNum) el.classList.add('today');
+    el.onclick = () => {
+      const card = document.querySelector('[data-day="' + d + '"]');
+      if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    };
+    container.appendChild(el);
+  }
+  const pct = Math.round((doneDays.length / 10) * 100);
+  document.getElementById('pctLabel').textContent = pct + '%';
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+function markDone(checkbox) {
+  const day = parseInt(checkbox.dataset.day);
+  const card = checkbox.closest('.day-card');
+  if (checkbox.checked) {
+    if (!doneDays.includes(day)) doneDays.push(day);
+    card.classList.add('completed');
+  } else {
+    doneDays = doneDays.filter(d => d !== day);
+    card.classList.remove('completed');
+  }
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(doneDays));
+  buildProgressBar();
+}
+
+// Restore checkboxes
+doneDays.forEach(d => {
+  const cb = document.querySelector('input[data-day="' + d + '"]');
+  if (cb) {
+    cb.checked = true;
+    cb.closest('.day-card').classList.add('completed');
+  }
+});
+
+buildProgressBar();
+
+// ---- Spaced Rep Table ----
+const pdfSchedule = [
+  { pdf: "1. Introduzione al corso",                  study: 1, reviews: [2, 4, 8, 10] },
+  { pdf: "2. Rischio biologico / Sterilizzazione",    study: 1, reviews: [3, 5, 8, 10] },
+  { pdf: "3. Struttura cellula batterica",            study: 2, reviews: [4, 6, 8, 10] },
+  { pdf: "3.1 Coltivazione e identificazione",        study: 2, reviews: [4, 6, 8, 10] },
+  { pdf: "3.2 Divisione e metabolismo / Curve cresc.",study: 3, reviews: [5, 7, 9, 10] },
+  { pdf: "4. Patogenicità e virulenza",               study: 3, reviews: [5, 7, 9, 10] },
+  { pdf: "5. Microbiota / Probiotici / Prebiotici",   study: 4, reviews: [6, 8, 10] },
+  { pdf: "6.1 Spore batteriche",                      study: 4, reviews: [6, 8, 10] },
+  { pdf: "7. VBNC e Biofilm",                         study: 5, reviews: [7, 8, 10] },
+  { pdf: "7.1 Resistenze agli antibiotici",           study: 5, reviews: [7, 9, 10] },
+  { pdf: "7.3 Resistenze e ricombinazione genica",    study: 6, reviews: [8, 9, 10] },
+  { pdf: "7. Chemioantibiotic / Resistenza",          study: 6, reviews: [8, 9, 10] },
+  { pdf: "10. Prevenzione / Vaccini",                 study: 7, reviews: [9, 10] },
+  { pdf: "11. Infezioni nosocomiali",                 study: 7, reviews: [9, 10] },
+  { pdf: "12. Sterilizzazione e disinfezione",        study: 7, reviews: [9, 10] },
+  { pdf: "13. Cosmetologia",                          study: 7, reviews: [9, 10] },
+  { pdf: "17. Batteriofagi",                          study: 7, reviews: [9, 10] },
+  { pdf: "18. Virus",                                 study: 7, reviews: [9, 10] },
+  { pdf: "One Health + Saggi e Dosaggi",              study: 7, reviews: [9, 10] },
+];
+
+const tbody = document.getElementById('srTable');
+pdfSchedule.forEach(item => {
+  const tr = document.createElement('tr');
+  let cells = `<td><div class="pdf-name">${item.pdf}</div></td>`;
+  for (let d = 1; d <= 10; d++) {
+    const isToday = d === todayDayNum;
+    const tdClass = isToday ? ' class="today-col"' : '';
+    if (d === item.study) {
+      cells += `<td${tdClass}><div class="dot study" title="Studio">S</div></td>`;
+    } else if (item.reviews.includes(d)) {
+      cells += `<td${tdClass}><div class="dot active" title="Ripasso">R</div></td>`;
+    } else {
+      cells += `<td${tdClass}><div class="dot"></div></td>`;
+    }
+  }
+  tr.innerHTML = cells;
+  tbody.appendChild(tr);
+});
+
+// Open first card if no today
+if (todayDayNum < 0) {
+  document.querySelector('.day-card').classList.add('open');
+}
+</script>
+</body>
+</html>
