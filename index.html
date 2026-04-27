@@ -27,12 +27,12 @@
     color: var(--text);
     font-family: 'DM Mono', monospace;
     min-height: 100vh;
-    padding: 40px 20px 80px;
+    padding: 20px 20px 80px;
   }
 
   header {
     max-width: 900px;
-    margin: 0 auto 40px;
+    margin: 40px auto 40px;
     text-align: left;
   }
 
@@ -67,6 +67,7 @@
     letter-spacing: 0.05em;
   }
 
+  /* Progress Section Sticky */
   .progress-section {
     max-width: 900px;
     margin: 0 auto 40px;
@@ -74,8 +75,8 @@
     border: 1px solid var(--border);
     padding: 20px 24px;
     position: sticky;
-    top: 20px;
-    z-index: 50;
+    top: 10px;
+    z-index: 1000;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   }
 
@@ -397,6 +398,7 @@
     color: var(--accent);
   }
 
+  /* Interattività Tabella SR */
   .sr-section {
     max-width: 900px;
     margin: 60px auto 0;
@@ -451,8 +453,8 @@
   }
 
   .dot {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     border-radius: 2px;
     background: var(--border);
     display: flex;
@@ -466,28 +468,15 @@
   }
 
   .dot.study, .dot.active { cursor: pointer; }
-  .dot.study:hover, .dot.active:hover { transform: scale(1.1); }
+  .dot.study:hover, .dot.active:hover { transform: scale(1.1); filter: brightness(1.2); }
   
   .dot.active { background: var(--phase2); }
   .dot.study { background: var(--phase1); }
   
-  /* Stile per i task SR completati */
   .dot.done-sr {
     background: var(--accent) !important;
     color: var(--bg) !important;
-    box-shadow: 0 0 8px rgba(200, 241, 53, 0.5);
-    transform: scale(1.05);
-  }
-
-  footer {
-    max-width: 900px;
-    margin: 50px auto 0;
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.05em;
-    text-align: center;
-    border-top: 1px solid var(--border);
-    padding-top: 24px;
+    box-shadow: 0 0 10px rgba(200, 241, 53, 0.4);
   }
 
   /* --- POMODORO TIMER WIDGET --- */
@@ -500,10 +489,10 @@
     padding: 16px 20px;
     border-radius: 4px;
     box-shadow: 0 8px 24px rgba(0,0,0,0.6);
-    z-index: 100;
+    z-index: 2000;
     text-align: center;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    min-width: 200px;
+    min-width: 220px;
   }
 
   .pomodoro-widget.minimized {
@@ -551,15 +540,16 @@
 
   .pomodoro-controls {
     display: flex;
-    gap: 8px;
+    gap: 6px;
     justify-content: center;
+    flex-wrap: wrap;
   }
 
   .pomodoro-btn {
     background: rgba(255,255,255,0.03);
     border: 1px solid var(--border);
     color: var(--muted);
-    padding: 6px 12px;
+    padding: 6px 10px;
     cursor: pointer;
     border-radius: 2px;
     font-family: 'DM Mono', monospace;
@@ -576,13 +566,22 @@
   .pomodoro-btn.play:hover { border-color: var(--accent); color: var(--accent); }
   .pomodoro-btn.mode:hover { border-color: var(--accent2); color: var(--accent2); }
   
-  /* Suono Focus attivo */
   .pomodoro-btn.audio-btn.audio-on {
     border-color: var(--accent);
     color: var(--accent);
     background: rgba(200, 241, 53, 0.1);
   }
 
+  footer {
+    max-width: 900px;
+    margin: 50px auto 0;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+  }
 </style>
 </head>
 <body>
@@ -615,7 +614,7 @@
   </div>
   <div class="stat">
     <div class="stat-num">~2</div>
-    <div class="stat-label">PDF al giorno (fase 1)</div>
+    <div class="stat-label">PDF al giorno</div>
   </div>
   <div class="stat">
     <div class="stat-num">80+</div>
@@ -635,7 +634,7 @@
   <div class="phase-label">
     <span class="phase-title" style="color:var(--phase1)">Fase 1 — Studio intensivo</span>
     <div class="phase-line"></div>
-    <span class="phase-desc">Giorni 1–7 · Prima lettura + schemi</span>
+    <span class="phase-desc">Giorni 1–7</span>
   </div>
 
   <div class="day-card phase-1" data-day="1" onclick="toggle(this)">
@@ -648,7 +647,6 @@
       <div class="day-right">
         <div class="day-pills">
           <span class="pill studio">Studio</span>
-          <span class="pill ripasso">Organizzazione</span>
         </div>
         <label class="day-check" onclick="event.stopPropagation()">
           <input type="checkbox" data-day="1" onchange="markDone(this)"> completato
@@ -660,30 +658,17 @@
       <div class="sessions">
         <div class="session">
           <div class="session-time">Sessione 1</div>
-          <div class="session-title">Mappatura generale (2h) + PDF 1</div>
+          <div class="session-title">Mappatura (2h) + PDF 1</div>
           <ul class="session-items">
-            <li>Scorri tutti i 19 PDF (5–10 min ciascuno)</li>
-            <li>Annota: lunghezza, difficoltà, argomento</li>
-            <li>Prioritizza da 1 (cruciale) a 3 (secondario)</li>
-            <li>Prima lettura completa PDF 1 (Introduzione al corso) + schema</li>
+            <li>Scorri i 19 PDF</li>
+            <li>Prioritizza contenuti</li>
           </ul>
         </div>
         <div class="session">
           <div class="session-time">Sessione 2</div>
           <div class="session-title">PDF 2 — Rischio biologico</div>
           <ul class="session-items">
-            <li>Prima lettura: rischio biologico, classi agenti, DPI</li>
-            <li>Crea schema/mappa concettuale</li>
-            <li>Collegamento concetti PDF 1 ↔ PDF 2</li>
-          </ul>
-        </div>
-        <div class="session">
-          <div class="session-time">Sessione 3</div>
-          <div class="session-title">Rielaborazione attiva</div>
-          <ul class="session-items">
-            <li>Ripassi schemi PDF 1 e 2 ad alta voce</li>
-            <li>Scrivi 5 domande possibili per ciascuno</li>
-            <li>Flashcard dei concetti chiave</li>
+            <li>Agenti e DPI</li>
           </ul>
         </div>
       </div>
@@ -693,311 +678,21 @@
   <div class="day-card phase-1" data-day="2" onclick="toggle(this)">
     <div class="day-header">
       <div class="day-num">02</div>
-      <div class="day-info">
-        <div class="day-title">PDF 3–4 + Primo ripasso PDF 1</div>
-        <div class="day-meta">Ritmo di crociera e citologia</div>
-      </div>
+      <div class="day-info"><div class="day-title">PDF 3–4 + Ripasso PDF 1</div><div class="day-meta">Citologia Batterica</div></div>
       <div class="day-right">
-        <div class="day-pills">
-          <span class="pill studio">Studio</span>
-          <span class="pill ripasso">Ripasso ×1</span>
-        </div>
-        <label class="day-check" onclick="event.stopPropagation()">
-          <input type="checkbox" data-day="2" onchange="markDone(this)"> completato
-        </label>
-      </div>
-      <div class="expand-icon">▾</div>
-    </div>
-    <div class="day-body">
-      <div class="sessions">
-        <div class="session">
-          <div class="session-time">Sessione 1</div>
-          <div class="session-title">PDF 3 — Struttura cellula batterica</div>
-          <ul class="session-items">
-            <li>Strutture obbligatorie e facoltative</li>
-            <li>Disegna la cellula batterica a mano + schema</li>
-          </ul>
-        </div>
-        <div class="session">
-          <div class="session-time">Sessione 2</div>
-          <div class="session-title">PDF 3.1 — Coltivazione e identificazione</div>
-          <ul class="session-items">
-            <li>Tecniche di coltura in vitro, terreni</li>
-            <li>Schema e connessioni con PDF 3</li>
-          </ul>
-        </div>
-        <div class="session">
-          <div class="session-time">Sessione 3</div>
-          <div class="session-title">⟳ Ripasso PDF 1</div>
-          <ul class="session-items">
-            <li>Rileggi solo i tuoi schemi</li>
-            <li>Esponi ad alta voce senza guardare</li>
-          </ul>
-        </div>
+        <label class="day-check" onclick="event.stopPropagation()"><input type="checkbox" data-day="2" onchange="markDone(this)"> completato</label>
       </div>
     </div>
   </div>
 
-  <div class="day-card phase-1" data-day="3" onclick="toggle(this)">
-    <div class="day-header">
-      <div class="day-num">03</div>
-      <div class="day-info">
-        <div class="day-title">PDF 3.2 + 4 + Ripasso PDF 2</div>
-        <div class="day-meta">Metabolismo e Virulenza</div>
-      </div>
-      <div class="day-right">
-        <div class="day-pills">
-          <span class="pill studio">Studio</span>
-          <span class="pill ripasso">Ripasso ×1</span>
-        </div>
-        <label class="day-check" onclick="event.stopPropagation()">
-          <input type="checkbox" data-day="3" onchange="markDone(this)"> completato
-        </label>
-      </div>
-      <div class="expand-icon">▾</div>
-    </div>
-    <div class="day-body">
-      <div class="sessions">
-        <div class="session">
-          <div class="session-time">Sessione 1</div>
-          <div class="session-title">PDF 3.2 — Crescita e metabolismo</div>
-          <ul class="session-items">
-            <li>Curve di crescita e metabolismi microbici</li>
-          </ul>
-        </div>
-        <div class="session">
-          <div class="session-time">Sessione 2</div>
-          <div class="session-title">PDF 4 — Patogenicità e virulenza</div>
-          <ul class="session-items">
-            <li>Fattori di virulenza: tossine, capsula, adesine</li>
-          </ul>
-        </div>
-        <div class="session">
-          <div class="session-time">Sessione 3</div>
-          <div class="session-title">⟳ Ripasso PDF 2</div>
-          <ul class="session-items">
-            <li>Esponi PDF 2 ad alta voce</li>
-          </ul>
-        </div>
-      </div>
-    </div>
   </div>
-
-  <div class="day-card phase-1" data-day="4" onclick="toggle(this)">
-    <div class="day-header">
-      <div class="day-num">04</div>
-      <div class="day-info">
-        <div class="day-title">PDF 5 + 6.1 + Ripasso PDF 1, 3</div>
-        <div class="day-meta">Microbiota e Spore</div>
-      </div>
-      <div class="day-right">
-        <div class="day-pills">
-          <span class="pill studio">Studio</span>
-          <span class="pill ripasso">Ripasso ×2</span>
-        </div>
-        <label class="day-check" onclick="event.stopPropagation()">
-          <input type="checkbox" data-day="4" onchange="markDone(this)"> completato
-        </label>
-      </div>
-      <div class="expand-icon">▾</div>
-    </div>
-    <div class="day-body">
-      <div class="sessions">
-        <div class="session">
-          <div class="session-title">PDF 5 — Microbiota + Probiotici</div>
-          <ul class="session-items">
-            <li>Eubiosi, disbiosi, pre/pro/postbiotici</li>
-          </ul>
-        </div>
-        <div class="session">
-          <div class="session-title">PDF 6.1 — Spore batteriche</div>
-          <ul class="session-items">
-            <li>Sporulazione e resistenza</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="day-card phase-1" data-day="5" onclick="toggle(this)">
-    <div class="day-header">
-      <div class="day-num">05</div>
-      <div class="day-info">
-        <div class="day-title">PDF 7 + 7.1 + Ripasso PDF 2, 4</div>
-        <div class="day-meta">Biofilm e Resistenze</div>
-      </div>
-      <div class="day-right">
-        <div class="day-pills">
-          <span class="pill studio">Studio</span>
-          <span class="pill ripasso">Ripasso ×2</span>
-        </div>
-        <label class="day-check" onclick="event.stopPropagation()">
-          <input type="checkbox" data-day="5" onchange="markDone(this)"> completato
-        </label>
-      </div>
-      <div class="expand-icon">▾</div>
-    </div>
-    <div class="day-body">
-      <div class="sessions">
-        <div class="session">
-          <div class="session-title">PDF 7 — VBNC e Biofilm</div>
-          <ul class="session-items">
-            <li>Formazione biofilm e resistenza clinica</li>
-          </ul>
-        </div>
-        <div class="session">
-          <div class="session-title">PDF 7.1 — Antibiogramma</div>
-          <ul class="session-items">
-            <li>Valutazione MIC e disco-diffusione</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="day-card phase-1" data-day="6" onclick="toggle(this)">
-    <div class="day-header">
-      <div class="day-num">06</div>
-      <div class="day-info">
-        <div class="day-title">PDF 7.3 + 7-Chemio + Ripasso PDF 3.2, 5, 6.1</div>
-        <div class="day-meta">Genetica e Antibiotici</div>
-      </div>
-      <div class="day-right">
-        <div class="day-pills">
-          <span class="pill studio">Studio</span>
-          <span class="pill ripasso">Ripasso ×3</span>
-        </div>
-        <label class="day-check" onclick="event.stopPropagation()">
-          <input type="checkbox" data-day="6" onchange="markDone(this)"> completato
-        </label>
-      </div>
-      <div class="expand-icon">▾</div>
-    </div>
-    <div class="day-body">
-      <div class="sessions">
-        <div class="session">
-          <div class="session-title">PDF 7.3 / 7-Chemio</div>
-          <ul class="session-items">
-            <li>Trasformazione, coniugazione, trasduzione</li>
-            <li>Meccanismi d'azione e di resistenza</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="day-card phase-1" data-day="7" onclick="toggle(this)">
-    <div class="day-header">
-      <div class="day-num">07</div>
-      <div class="day-info">
-        <div class="day-title">PDF 10–13 + 17–18 · Sterilizzazione, vaccini, virus</div>
-        <div class="day-meta">Ultimo sforzo di studio nuovo</div>
-      </div>
-      <div class="day-right">
-        <div class="day-pills">
-          <span class="pill studio">Studio</span>
-          <span class="pill ripasso">Ripasso ×2</span>
-        </div>
-        <label class="day-check" onclick="event.stopPropagation()">
-          <input type="checkbox" data-day="7" onchange="markDone(this)"> completato
-        </label>
-      </div>
-      <div class="expand-icon">▾</div>
-    </div>
-    <div class="day-body">
-      <div class="sessions">
-        <div class="session">
-          <div class="session-title">Blocco Finale</div>
-          <ul class="session-items">
-            <li>Vaccini, Infezioni Nosocomiali, Sterilizzazione</li>
-            <li>Cosmetologia, Batteriofagi e Virus</li>
-            <li>One Health + Saggi</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="phase-label" style="margin-top:24px">
-    <span class="phase-title" style="color:var(--phase2)">Fase 2 — Consolidamento</span>
-    <div class="phase-line"></div>
-    <span class="phase-desc">Giorni 8–9 · Ripasso sistematico</span>
-  </div>
-
-  <div class="day-card phase-2" data-day="8" onclick="toggle(this)">
-    <div class="day-header">
-      <div class="day-num">08</div>
-      <div class="day-info">
-        <div class="day-title">Ripasso PDF 1–10</div>
-        <div class="day-meta">Prima metà del programma</div>
-      </div>
-      <div class="day-right">
-        <div class="day-pills">
-          <span class="pill ripasso">Ripasso ×10</span>
-          <span class="pill simulazione">Esposizione</span>
-        </div>
-        <label class="day-check" onclick="event.stopPropagation()">
-          <input type="checkbox" data-day="8" onchange="markDone(this)"> completato
-        </label>
-      </div>
-      <div class="expand-icon">▾</div>
-    </div>
-  </div>
-
-  <div class="day-card phase-2" data-day="9" onclick="toggle(this)">
-    <div class="day-header">
-      <div class="day-num">09</div>
-      <div class="day-info">
-        <div class="day-title">Ripasso PDF 11–19</div>
-        <div class="day-meta">Seconda metà del programma</div>
-      </div>
-      <div class="day-right">
-        <div class="day-pills">
-          <span class="pill ripasso">Ripasso ×9</span>
-          <span class="pill simulazione">Esposizione</span>
-        </div>
-        <label class="day-check" onclick="event.stopPropagation()">
-          <input type="checkbox" data-day="9" onchange="markDone(this)"> completato
-        </label>
-      </div>
-      <div class="expand-icon">▾</div>
-    </div>
-  </div>
-
-  <div class="phase-label" style="margin-top:24px">
-    <span class="phase-title" style="color:var(--phase3)">Fase 3 — Simulazione</span>
-    <div class="phase-line"></div>
-    <span class="phase-desc">Giorno 10 · Ripasso finale</span>
-  </div>
-
-  <div class="day-card phase-3" data-day="10" onclick="toggle(this)">
-    <div class="day-header">
-      <div class="day-num">10</div>
-      <div class="day-info">
-        <div class="day-title">Simulazione orale completa</div>
-        <div class="day-meta">Target: Padronanza totale</div>
-      </div>
-      <div class="day-right">
-        <div class="day-pills">
-          <span class="pill simulazione">Simulazione</span>
-          <span class="pill ripasso">Finale</span>
-        </div>
-        <label class="day-check" onclick="event.stopPropagation()">
-          <input type="checkbox" data-day="10" onchange="markDone(this)"> completato
-        </label>
-      </div>
-      <div class="expand-icon">▾</div>
-    </div>
-  </div>
-
-</div>
 
 <div class="sr-section">
   <h2>Schema Spaced Repetition Interattivo</h2>
-  <p>Clicca sui quadratini per segnare il completamento di quel ripasso. ■ = Studio &nbsp; ◆ = Ripasso</p>
+  <p>Clicca sui quadratini per segnare il completamento del singolo task. ■ = Studio &nbsp; ◆ = Ripasso</p>
   <table class="sr-table">
     <thead>
-      <tr id="srHeader">
+      <tr>
         <th>PDF</th>
         <th>G1</th><th>G2</th><th>G3</th><th>G4</th><th>G5</th><th>G6</th><th>G7</th><th>G8</th><th>G9</th><th>G10</th>
       </tr>
@@ -1016,12 +711,12 @@
     <button class="pomodoro-btn play" onclick="startPomodoro()" title="Avvia">▶</button>
     <button class="pomodoro-btn" onclick="pausePomodoro()" title="Pausa">⏸</button>
     <button class="pomodoro-btn" onclick="resetPomodoro()" title="Reset">↻</button>
-    <button class="pomodoro-btn mode" onclick="switchPomodoroMode()" title="Cambia Modalità">⟂</button>
+    <button class="pomodoro-btn mode" onclick="switchPomodoroMode()" title="Modalità">⟂</button>
     <button class="pomodoro-btn audio-btn" id="audioBtn" onclick="toggleFocusSound()" title="Focus Audio (Pioggia)">🎧</button>
   </div>
 </div>
 
-<footer>Piano 10 giorni · 19 PDF · Metodo Spaced Repetition</footer>
+<footer>Piano 10 giorni · Metodo Spaced Repetition</footer>
 
 <script>
 // --- LOGICA ACCORDION E PROGRESS BAR ---
@@ -1062,17 +757,17 @@ function markDone(checkbox) {
   buildProgressBar();
 }
 
-// Restore checkboxes
-doneDays.forEach(d => {
-  const cb = document.querySelector('input[data-day="' + d + '"]');
-  if (cb) {
+// Inizializzazione Checkbox
+document.querySelectorAll('.day-check input').forEach(cb => {
+  const d = parseInt(cb.dataset.day);
+  if (doneDays.includes(d)) {
     cb.checked = true;
     cb.closest('.day-card').classList.add('completed');
   }
 });
 buildProgressBar();
 
-// --- LOGICA SPACED REPETITION INTERATTIVA ---
+// --- LOGICA SR INTERATTIVA ---
 const pdfSchedule = [
   { pdf: "1. Introduzione al corso", study: 1, reviews: [2, 4, 8, 10] },
   { pdf: "2. Rischio biologico", study: 1, reviews: [3, 5, 8, 10] },
@@ -1086,22 +781,17 @@ const pdfSchedule = [
   { pdf: "7.1 Resistenze", study: 5, reviews: [7, 9, 10] },
   { pdf: "7.3 Genetica", study: 6, reviews: [8, 9, 10] },
   { pdf: "7. Chemioantibiotici", study: 6, reviews: [8, 9, 10] },
-  { pdf: "10-18 Altri (Vaccini, Virus...)", study: 7, reviews: [9, 10] }
+  { pdf: "10-18 Altri (Vaccini...)", study: 7, reviews: [9, 10] }
 ];
 
 const SR_STORAGE_KEY = 'microbio_sr_state';
 let srState = JSON.parse(localStorage.getItem(SR_STORAGE_KEY) || '{}');
 
 function toggleSR(id, el) {
-  // Toggle the visual class
+  playClick();
   el.classList.toggle('done-sr');
-  
-  // Save state
-  if (el.classList.contains('done-sr')) {
-    srState[id] = true;
-  } else {
-    delete srState[id];
-  }
+  if (el.classList.contains('done-sr')) srState[id] = true;
+  else delete srState[id];
   localStorage.setItem(SR_STORAGE_KEY, JSON.stringify(srState));
 }
 
@@ -1109,159 +799,92 @@ const tbody = document.getElementById('srTable');
 pdfSchedule.forEach((item, index) => {
   const tr = document.createElement('tr');
   let cells = `<td><div class="pdf-name">${item.pdf}</div></td>`;
-  
   for (let d = 1; d <= 10; d++) {
-    const cellId = `pdf${index}_day${d}`;
-    const isDone = srState[cellId] ? 'done-sr' : '';
-    
-    if (d === item.study) {
-      cells += `<td><div class="dot study ${isDone}" onclick="toggleSR('${cellId}', this)" title="Segna come studiato">S</div></td>`;
-    } else if (item.reviews.includes(d)) {
-      cells += `<td><div class="dot active ${isDone}" onclick="toggleSR('${cellId}', this)" title="Segna come ripassato">R</div></td>`;
-    } else {
-      cells += `<td><div class="dot"></div></td>`;
-    }
+    const cid = `p${index}_d${d}`;
+    const cls = srState[cid] ? 'done-sr' : '';
+    if (d === item.study) cells += `<td><div class="dot study ${cls}" onclick="toggleSR('${cid}', this)">S</div></td>`;
+    else if (item.reviews.includes(d)) cells += `<td><div class="dot active ${cls}" onclick="toggleSR('${cid}', this)">R</div></td>`;
+    else cells += `<td><div class="dot"></div></td>`;
   }
   tr.innerHTML = cells;
   tbody.appendChild(tr);
 });
 
-// --- LOGICA AUDIO E POMODORO TIMER ---
-let pomodoroTime = 50 * 60; // 50 minuti in secondi
-let isStudyMode = true;
-let timerInterval = null;
-
-const timeDisplay = document.getElementById('pomodoroTime');
-const modeDisplay = document.getElementById('pomodoroMode');
-const widget = document.getElementById('pomodoroWidget');
-const icon = document.getElementById('pomodoroIcon');
-
-// Setup Audio
+// --- LOGICA AUDIO E POMODORO ---
 const clickSound = new Audio('https://actions.google.com/sounds/v1/ui/button_click.ogg');
 const alertSound = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg');
 const focusSound = new Audio('https://actions.google.com/sounds/v1/water/rain_on_roof.ogg');
 focusSound.loop = true;
-focusSound.volume = 0.4; // Volume gradevole, non assordante
-let isFocusSoundPlaying = false;
+focusSound.volume = 0.4;
 
-// --- TRUCCO PER SBLOCCARE L'AUDIO ---
-// Al primo click ovunque sulla pagina, i suoni vengono avviati e messi subito in pausa 
-// in modo invisibile, così il browser li "autorizza" per tutto il resto della sessione.
 let audioUnlocked = false;
 function unlockAudio() {
   if (audioUnlocked) return;
-  
-  [clickSound, alertSound, focusSound].forEach(audio => {
-    audio.play().then(() => {
-      audio.pause();
-      audio.currentTime = 0;
-    }).catch(e => console.log("Inizializzazione audio silenziosa in corso..."));
+  [clickSound, alertSound, focusSound].forEach(a => {
+    a.play().then(() => { a.pause(); a.currentTime = 0; }).catch(e => {});
   });
-  
   audioUnlocked = true;
   document.removeEventListener('click', unlockAudio);
 }
 document.addEventListener('click', unlockAudio);
-// ------------------------------------
 
-function playClick() {
-  if (!audioUnlocked) return;
-  clickSound.currentTime = 0;
-  clickSound.play().catch(e => console.log("Click non supportato ancora"));
-}
+function playClick() { if (audioUnlocked) { clickSound.currentTime = 0; clickSound.play(); } }
 
-function toggleFocusSound() {
-  playClick();
-  const btn = document.getElementById('audioBtn');
-  
-  if (isFocusSoundPlaying) {
-    focusSound.pause();
-    btn.classList.remove('audio-on');
-    isFocusSoundPlaying = false;
-  } else {
-    // Prova a riprodurre. Se ha successo, cambia il colore al bottone.
-    focusSound.play().then(() => {
-      btn.classList.add('audio-on');
-      isFocusSoundPlaying = true;
-    }).catch(e => {
-      alert("L'audio si sta caricando o richiede i permessi. Clicca in uno spazio vuoto della pagina e poi riprova.");
-      console.error("Errore avvio pioggia:", e);
-    });
-  }
-}
+let pomodoroTime = 50 * 60;
+let isStudyMode = true;
+let timerInterval = null;
+let isFocusSoundPlaying = false;
+
+const timeDisplay = document.getElementById('pomodoroTime');
+const modeDisplay = document.getElementById('pomodoroMode');
+const widget = document.getElementById('pomodoroWidget');
+
 function updatePomodoroDisplay() {
   const m = Math.floor(pomodoroTime / 60).toString().padStart(2, '0');
   const s = (pomodoroTime % 60).toString().padStart(2, '0');
   timeDisplay.textContent = `${m}:${s}`;
-  
-  const modeText = isStudyMode ? 'Studio' : 'Pausa';
-  document.title = `${m}:${s} - ${modeText}`;
+  document.title = `${m}:${s} - ${isStudyMode ? 'Studio' : 'Pausa'}`;
 }
 
 function startPomodoro() {
   playClick();
-  if (timerInterval) return; 
+  if (timerInterval) return;
   timerInterval = setInterval(() => {
-    if (pomodoroTime > 0) {
-      pomodoroTime--;
-      updatePomodoroDisplay();
-    } else {
-      pausePomodoro();
-      alertSound.play().catch(e => console.log("Audio bloccato"));
-      
-      if (isStudyMode) {
-        alert("Ottimo lavoro! 50 minuti completati. Prenditi 10 minuti di pausa vera (alzati dalla sedia!).");
-      } else {
-        alert("Pausa finita! Si torna a studiare.");
-      }
-      switchPomodoroMode(false); // false = non fare il suono del click due volte
+    if (pomodoroTime > 0) { pomodoroTime--; updatePomodoroDisplay(); }
+    else {
+      pausePomodoroLogic();
+      alertSound.play();
+      alert(isStudyMode ? "Studio finito! Pausa 10 min." : "Pausa finita! Riprendi.");
+      switchPomodoroMode(false);
     }
   }, 1000);
 }
 
-function pausePomodoro() {
-  playClick();
-  clearInterval(timerInterval);
-  timerInterval = null;
-}
+function pausePomodoro() { playClick(); pausePomodoroLogic(); }
+function pausePomodoroLogic() { clearInterval(timerInterval); timerInterval = null; }
 
-function resetPomodoro() {
-  playClick();
-  pausePomodoroLogicOnly();
-  pomodoroTime = isStudyMode ? 50 * 60 : 10 * 60;
-  updatePomodoroDisplay();
-}
+function resetPomodoro() { playClick(); pausePomodoroLogic(); pomodoroTime = isStudyMode ? 50 * 60 : 10 * 60; updatePomodoroDisplay(); }
 
-function pausePomodoroLogicOnly() {
-  clearInterval(timerInterval);
-  timerInterval = null;
-}
-
-function switchPomodoroMode(playAudio = true) {
-  if(playAudio) playClick();
-  pausePomodoroLogicOnly();
+function switchPomodoroMode(click = true) {
+  if(click) playClick();
+  pausePomodoroLogic();
   isStudyMode = !isStudyMode;
   pomodoroTime = isStudyMode ? 50 * 60 : 10 * 60;
-  
-  if (isStudyMode) {
-    modeDisplay.textContent = "Studio 50'";
-    modeDisplay.classList.remove('break-mode');
-  } else {
-    modeDisplay.textContent = "Pausa 10'";
-    modeDisplay.classList.add('break-mode');
-  }
+  modeDisplay.textContent = isStudyMode ? "Studio 50'" : "Pausa 10'";
+  modeDisplay.className = 'pomodoro-title' + (isStudyMode ? '' : ' break-mode');
   updatePomodoroDisplay();
 }
 
-function togglePomodoro() {
+function togglePomodoro() { playClick(); widget.classList.toggle('minimized'); document.getElementById('pomodoroIcon').textContent = widget.classList.contains('minimized') ? '▴' : '▾'; }
+
+function toggleFocusSound() {
   playClick();
-  widget.classList.toggle('minimized');
-  icon.textContent = widget.classList.contains('minimized') ? '▴' : '▾';
+  const btn = document.getElementById('audioBtn');
+  if (isFocusSoundPlaying) { focusSound.pause(); btn.classList.remove('audio-on'); isFocusSoundPlaying = false; }
+  else { focusSound.play().then(() => { btn.classList.add('audio-on'); isFocusSoundPlaying = true; }).catch(e => alert("Clicca sulla pagina prima!")); }
 }
 
-// Inizializza
 updatePomodoroDisplay();
-
 </script>
 </body>
 </html>
