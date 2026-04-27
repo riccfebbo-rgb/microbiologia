@@ -73,6 +73,10 @@
     background: var(--surface);
     border: 1px solid var(--border);
     padding: 20px 24px;
+    position: sticky;
+    top: 20px;
+    z-index: 50;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   }
 
   .progress-header {
@@ -393,46 +397,6 @@
     color: var(--accent);
   }
 
-  .spaced-rep-box {
-    margin-top: 14px;
-    background: rgba(200, 241, 53, 0.04);
-    border: 1px solid rgba(200, 241, 53, 0.2);
-    padding: 12px 14px;
-  }
-
-  .spaced-rep-title {
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 6px;
-  }
-
-  .spaced-rep-items {
-    font-size: 12px;
-    color: var(--muted);
-    line-height: 1.8;
-  }
-
-  .tip-box {
-    margin-top: 14px;
-    background: rgba(91, 138, 255, 0.04);
-    border: 1px solid rgba(91, 138, 255, 0.2);
-    padding: 12px 14px;
-    font-size: 12px;
-    color: #aac0ff;
-    line-height: 1.6;
-  }
-
-  .tip-label {
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--accent2);
-    display: block;
-    margin-bottom: 4px;
-  }
-
   .sr-section {
     max-width: 900px;
     margin: 60px auto 0;
@@ -498,41 +462,21 @@
     color: var(--bg);
     font-weight: 700;
     margin: auto;
+    transition: all 0.2s;
   }
 
+  .dot.study, .dot.active { cursor: pointer; }
+  .dot.study:hover, .dot.active:hover { transform: scale(1.1); }
+  
   .dot.active { background: var(--phase2); }
   .dot.study { background: var(--phase1); }
-  .dot.final { background: var(--phase3); }
-
-  .techniques {
-    max-width: 900px;
-    margin: 50px auto 0;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 12px;
-  }
-
-  @media (max-width: 700px) { .techniques { grid-template-columns: 1fr; } }
-
-  .technique {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 20px;
-  }
-
-  .technique-icon { font-size: 24px; margin-bottom: 10px; }
-
-  .technique h3 {
-    font-family: 'Syne', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    margin-bottom: 8px;
-  }
-
-  .technique p {
-    font-size: 12px;
-    color: var(--muted);
-    line-height: 1.7;
+  
+  /* Stile per i task SR completati */
+  .dot.done-sr {
+    background: var(--accent) !important;
+    color: var(--bg) !important;
+    box-shadow: 0 0 8px rgba(200, 241, 53, 0.5);
+    transform: scale(1.05);
   }
 
   footer {
@@ -559,7 +503,7 @@
     z-index: 100;
     text-align: center;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    min-width: 180px;
+    min-width: 200px;
   }
 
   .pomodoro-widget.minimized {
@@ -631,6 +575,13 @@
   
   .pomodoro-btn.play:hover { border-color: var(--accent); color: var(--accent); }
   .pomodoro-btn.mode:hover { border-color: var(--accent2); color: var(--accent2); }
+  
+  /* Suono Focus attivo */
+  .pomodoro-btn.audio-btn.audio-on {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(200, 241, 53, 0.1);
+  }
 
 </style>
 </head>
@@ -1042,8 +993,8 @@
 </div>
 
 <div class="sr-section">
-  <h2>Schema Spaced Repetition</h2>
-  <p>Progressione dei ripassi per PDF. ■ = Studio &nbsp; ◆ = Ripasso</p>
+  <h2>Schema Spaced Repetition Interattivo</h2>
+  <p>Clicca sui quadratini per segnare il completamento di quel ripasso. ■ = Studio &nbsp; ◆ = Ripasso</p>
   <table class="sr-table">
     <thead>
       <tr id="srHeader">
@@ -1066,12 +1017,14 @@
     <button class="pomodoro-btn" onclick="pausePomodoro()" title="Pausa">⏸</button>
     <button class="pomodoro-btn" onclick="resetPomodoro()" title="Reset">↻</button>
     <button class="pomodoro-btn mode" onclick="switchPomodoroMode()" title="Cambia Modalità">⟂</button>
+    <button class="pomodoro-btn audio-btn" id="audioBtn" onclick="toggleFocusSound()" title="Focus Audio (Pioggia)">🎧</button>
   </div>
 </div>
 
 <footer>Piano 10 giorni · 19 PDF · Metodo Spaced Repetition</footer>
 
 <script>
+// --- LOGICA ACCORDION E PROGRESS BAR ---
 function toggle(card) { card.classList.toggle('open'); }
 
 const STORAGE_KEY = 'microbio_done_days_generic';
@@ -1119,6 +1072,7 @@ doneDays.forEach(d => {
 });
 buildProgressBar();
 
+// --- LOGICA SPACED REPETITION INTERATTIVA ---
 const pdfSchedule = [
   { pdf: "1. Introduzione al corso", study: 1, reviews: [2, 4, 8, 10] },
   { pdf: "2. Rischio biologico", study: 1, reviews: [3, 5, 8, 10] },
@@ -1135,20 +1089,44 @@ const pdfSchedule = [
   { pdf: "10-18 Altri (Vaccini, Virus...)", study: 7, reviews: [9, 10] }
 ];
 
+const SR_STORAGE_KEY = 'microbio_sr_state';
+let srState = JSON.parse(localStorage.getItem(SR_STORAGE_KEY) || '{}');
+
+function toggleSR(id, el) {
+  // Toggle the visual class
+  el.classList.toggle('done-sr');
+  
+  // Save state
+  if (el.classList.contains('done-sr')) {
+    srState[id] = true;
+  } else {
+    delete srState[id];
+  }
+  localStorage.setItem(SR_STORAGE_KEY, JSON.stringify(srState));
+}
+
 const tbody = document.getElementById('srTable');
-pdfSchedule.forEach(item => {
+pdfSchedule.forEach((item, index) => {
   const tr = document.createElement('tr');
   let cells = `<td><div class="pdf-name">${item.pdf}</div></td>`;
+  
   for (let d = 1; d <= 10; d++) {
-    if (d === item.study) cells += `<td><div class="dot study">S</div></td>`;
-    else if (item.reviews.includes(d)) cells += `<td><div class="dot active">R</div></td>`;
-    else cells += `<td><div class="dot"></div></td>`;
+    const cellId = `pdf${index}_day${d}`;
+    const isDone = srState[cellId] ? 'done-sr' : '';
+    
+    if (d === item.study) {
+      cells += `<td><div class="dot study ${isDone}" onclick="toggleSR('${cellId}', this)" title="Segna come studiato">S</div></td>`;
+    } else if (item.reviews.includes(d)) {
+      cells += `<td><div class="dot active ${isDone}" onclick="toggleSR('${cellId}', this)" title="Segna come ripassato">R</div></td>`;
+    } else {
+      cells += `<td><div class="dot"></div></td>`;
+    }
   }
   tr.innerHTML = cells;
   tbody.appendChild(tr);
 });
 
-// --- LOGICA POMODORO TIMER ---
+// --- LOGICA AUDIO E POMODORO TIMER ---
 let pomodoroTime = 50 * 60; // 50 minuti in secondi
 let isStudyMode = true;
 let timerInterval = null;
@@ -1158,51 +1136,83 @@ const modeDisplay = document.getElementById('pomodoroMode');
 const widget = document.getElementById('pomodoroWidget');
 const icon = document.getElementById('pomodoroIcon');
 
-// Notifica audio (suono breve)
+// Setup Audio
+const clickSound = new Audio('https://actions.google.com/sounds/v1/ui/button_click.ogg');
 const alertSound = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg');
+const focusSound = new Audio('https://actions.google.com/sounds/v1/water/rain_on_roof.ogg');
+focusSound.loop = true;
+focusSound.volume = 0.4; // Volume gradevole, non assordante
+let isFocusSoundPlaying = false;
+
+function playClick() {
+  clickSound.currentTime = 0;
+  clickSound.play().catch(e => console.log("Audio non interagibile"));
+}
+
+function toggleFocusSound() {
+  playClick();
+  const btn = document.getElementById('audioBtn');
+  if (isFocusSoundPlaying) {
+    focusSound.pause();
+    btn.classList.remove('audio-on');
+  } else {
+    focusSound.play().catch(e => alert("Il browser blocca l'audio finché non interagisci con la pagina. Clicca un punto qualsiasi e riprova."));
+    btn.classList.add('audio-on');
+  }
+  isFocusSoundPlaying = !isFocusSoundPlaying;
+}
 
 function updatePomodoroDisplay() {
   const m = Math.floor(pomodoroTime / 60).toString().padStart(2, '0');
   const s = (pomodoroTime % 60).toString().padStart(2, '0');
   timeDisplay.textContent = `${m}:${s}`;
   
-  // Aggiorna anche il titolo della scheda del browser
   const modeText = isStudyMode ? 'Studio' : 'Pausa';
   document.title = `${m}:${s} - ${modeText}`;
 }
 
 function startPomodoro() {
-  if (timerInterval) return; // Evita timer multipli
+  playClick();
+  if (timerInterval) return; 
   timerInterval = setInterval(() => {
     if (pomodoroTime > 0) {
       pomodoroTime--;
       updatePomodoroDisplay();
     } else {
       pausePomodoro();
-      alertSound.play().catch(e => console.log("Audio bloccato dal browser"));
+      alertSound.play().catch(e => console.log("Audio bloccato"));
       
       if (isStudyMode) {
         alert("Ottimo lavoro! 50 minuti completati. Prenditi 10 minuti di pausa vera (alzati dalla sedia!).");
       } else {
-        alert("Pausa finita! Si torna a spaccare i batteri.");
+        alert("Pausa finita! Si torna a studiare.");
       }
-      switchPomodoroMode();
+      switchPomodoroMode(false); // false = non fare il suono del click due volte
     }
   }, 1000);
 }
 
 function pausePomodoro() {
+  playClick();
   clearInterval(timerInterval);
   timerInterval = null;
 }
 
 function resetPomodoro() {
-  pausePomodoro();
+  playClick();
+  pausePomodoroLogicOnly();
   pomodoroTime = isStudyMode ? 50 * 60 : 10 * 60;
   updatePomodoroDisplay();
 }
 
-function switchPomodoroMode() {
+function pausePomodoroLogicOnly() {
+  clearInterval(timerInterval);
+  timerInterval = null;
+}
+
+function switchPomodoroMode(playAudio = true) {
+  if(playAudio) playClick();
+  pausePomodoroLogicOnly();
   isStudyMode = !isStudyMode;
   pomodoroTime = isStudyMode ? 50 * 60 : 10 * 60;
   
@@ -1213,15 +1223,16 @@ function switchPomodoroMode() {
     modeDisplay.textContent = "Pausa 10'";
     modeDisplay.classList.add('break-mode');
   }
-  resetPomodoro();
+  updatePomodoroDisplay();
 }
 
 function togglePomodoro() {
+  playClick();
   widget.classList.toggle('minimized');
   icon.textContent = widget.classList.contains('minimized') ? '▴' : '▾';
 }
 
-// Inizializza il timer al caricamento
+// Inizializza
 updatePomodoroDisplay();
 
 </script>
