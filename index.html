@@ -565,12 +565,6 @@
   .pomodoro-btn.play:hover { border-color: var(--accent); color: var(--accent); }
   .pomodoro-btn.mode:hover { border-color: var(--accent2); color: var(--accent2); }
   
-  .pomodoro-btn.audio-btn.audio-on {
-    border-color: var(--accent);
-    color: var(--accent);
-    background: rgba(200, 241, 53, 0.1);
-  }
-
   footer {
     max-width: 900px;
     margin: 50px auto 0;
@@ -1015,7 +1009,6 @@
     <button class="pomodoro-btn" onclick="pausePomodoro()" title="Pausa">⏸</button>
     <button class="pomodoro-btn" onclick="resetPomodoro()" title="Reset">↻</button>
     <button class="pomodoro-btn mode" onclick="switchPomodoroMode()" title="Modalità">⟂</button>
-    <button class="pomodoro-btn audio-btn" id="audioBtn" onclick="toggleFocusSound()" title="Focus Audio (Pioggia)">🎧</button>
   </div>
 </div>
 
@@ -1091,7 +1084,6 @@ const SR_STORAGE_KEY = 'microbio_sr_state';
 let srState = JSON.parse(localStorage.getItem(SR_STORAGE_KEY) || '{}');
 
 function toggleSR(id, el) {
-  playClick();
   el.classList.toggle('done-sr');
   if (el.classList.contains('done-sr')) srState[id] = true;
   else delete srState[id];
@@ -1113,96 +1105,6 @@ pdfSchedule.forEach((item, index) => {
   tbody.appendChild(tr);
 });
 
-// --- LOGICA AUDIO GENERATIVO (WEB AUDIO API) ---
-let audioCtx = null;
-
-function initAudio() {
-  if (!audioCtx) {
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  }
-  if (audioCtx.state === 'suspended') {
-    audioCtx.resume();
-  }
-}
-
-function playClick() {
-  initAudio();
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-  osc.connect(gain);
-  gain.connect(audioCtx.destination);
-  osc.type = 'sine';
-  osc.frequency.setValueAtTime(600, audioCtx.currentTime);
-  gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
-  osc.start();
-  osc.stop(audioCtx.currentTime + 0.1);
-}
-
-function playAlert() {
-  initAudio();
-  const playTone = (freq, startTime) => {
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    osc.type = 'square';
-    osc.frequency.setValueAtTime(freq, startTime);
-    gain.gain.setValueAtTime(0.05, startTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.2);
-    osc.start(startTime);
-    osc.stop(startTime + 0.2);
-  };
-  const now = audioCtx.currentTime;
-  playTone(880, now);
-  playTone(880, now + 0.3);
-}
-
-let noiseSource = null;
-let noiseGain = null;
-let isFocusSoundPlaying = false;
-
-function toggleFocusSound() {
-  playClick();
-  const btn = document.getElementById('audioBtn');
-  
-  if (isFocusSoundPlaying) {
-    if (noiseGain) noiseGain.gain.setTargetAtTime(0, audioCtx.currentTime, 0.5);
-    setTimeout(() => {
-      if (noiseSource) { noiseSource.stop(); noiseSource.disconnect(); noiseSource = null; }
-    }, 1000);
-    btn.classList.remove('audio-on');
-    isFocusSoundPlaying = false;
-  } else {
-    initAudio();
-    const bufferSize = 2 * audioCtx.sampleRate;
-    const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-    const output = noiseBuffer.getChannelData(0);
-    let lastOut = 0;
-    for (let i = 0; i < bufferSize; i++) {
-      const white = Math.random() * 2 - 1;
-      output[i] = (lastOut + (0.02 * white)) / 1.02;
-      lastOut = output[i];
-      output[i] *= 3.5; 
-    }
-    
-    noiseSource = audioCtx.createBufferSource();
-    noiseSource.buffer = noiseBuffer;
-    noiseSource.loop = true;
-    
-    noiseGain = audioCtx.createGain();
-    noiseGain.gain.setValueAtTime(0, audioCtx.currentTime);
-    noiseGain.gain.setTargetAtTime(0.5, audioCtx.currentTime, 2);
-    
-    noiseSource.connect(noiseGain);
-    noiseGain.connect(audioCtx.destination);
-    noiseSource.start();
-    
-    btn.classList.add('audio-on');
-    isFocusSoundPlaying = true;
-  }
-}
-
 // --- LOGICA POMODORO TIMER ---
 let pomodoroTime = 50 * 60;
 let isStudyMode = true;
@@ -1220,7 +1122,6 @@ function updatePomodoroDisplay() {
 }
 
 function startPomodoro() {
-  playClick();
   if (timerInterval) return;
   timerInterval = setInterval(() => {
     if (pomodoroTime > 0) { 
@@ -1228,27 +1129,28 @@ function startPomodoro() {
       updatePomodoroDisplay(); 
     } else {
       pausePomodoroLogic();
-      playAlert();
-      setTimeout(() => {
-          alert(isStudyMode ? "Studio finito! Pausa 10 min." : "Pausa finita! Riprendi.");
-          switchPomodoroMode(false);
-      }, 500);
+      alert(isStudyMode ? "Studio finito! Pausa 10 min." : "Pausa finita! Riprendi.");
+      switchPomodoroMode();
     }
   }, 1000);
 }
 
-function pausePomodoro() { playClick(); pausePomodoroLogic(); }
-function pausePomodoroLogic() { clearInterval(timerInterval); timerInterval = null; }
+function pausePomodoro() { 
+  pausePomodoroLogic(); 
+}
+
+function pausePomodoroLogic() { 
+  clearInterval(timerInterval); 
+  timerInterval = null; 
+}
 
 function resetPomodoro() { 
-  playClick(); 
   pausePomodoroLogic(); 
   pomodoroTime = isStudyMode ? 50 * 60 : 10 * 60; 
   updatePomodoroDisplay(); 
 }
 
-function switchPomodoroMode(click = true) {
-  if(click) playClick();
+function switchPomodoroMode() {
   pausePomodoroLogic();
   isStudyMode = !isStudyMode;
   pomodoroTime = isStudyMode ? 50 * 60 : 10 * 60;
@@ -1258,7 +1160,6 @@ function switchPomodoroMode(click = true) {
 }
 
 function togglePomodoro() { 
-  playClick(); 
   widget.classList.toggle('minimized'); 
   document.getElementById('pomodoroIcon').textContent = widget.classList.contains('minimized') ? '▴' : '▾'; 
 }
