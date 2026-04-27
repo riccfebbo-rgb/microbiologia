@@ -1144,24 +1144,51 @@ focusSound.loop = true;
 focusSound.volume = 0.4; // Volume gradevole, non assordante
 let isFocusSoundPlaying = false;
 
+// --- TRUCCO PER SBLOCCARE L'AUDIO ---
+// Al primo click ovunque sulla pagina, i suoni vengono avviati e messi subito in pausa 
+// in modo invisibile, così il browser li "autorizza" per tutto il resto della sessione.
+let audioUnlocked = false;
+function unlockAudio() {
+  if (audioUnlocked) return;
+  
+  [clickSound, alertSound, focusSound].forEach(audio => {
+    audio.play().then(() => {
+      audio.pause();
+      audio.currentTime = 0;
+    }).catch(e => console.log("Inizializzazione audio silenziosa in corso..."));
+  });
+  
+  audioUnlocked = true;
+  document.removeEventListener('click', unlockAudio);
+}
+document.addEventListener('click', unlockAudio);
+// ------------------------------------
+
 function playClick() {
+  if (!audioUnlocked) return;
   clickSound.currentTime = 0;
-  clickSound.play().catch(e => console.log("Audio non interagibile"));
+  clickSound.play().catch(e => console.log("Click non supportato ancora"));
 }
 
 function toggleFocusSound() {
   playClick();
   const btn = document.getElementById('audioBtn');
+  
   if (isFocusSoundPlaying) {
     focusSound.pause();
     btn.classList.remove('audio-on');
+    isFocusSoundPlaying = false;
   } else {
-    focusSound.play().catch(e => alert("Il browser blocca l'audio finché non interagisci con la pagina. Clicca un punto qualsiasi e riprova."));
-    btn.classList.add('audio-on');
+    // Prova a riprodurre. Se ha successo, cambia il colore al bottone.
+    focusSound.play().then(() => {
+      btn.classList.add('audio-on');
+      isFocusSoundPlaying = true;
+    }).catch(e => {
+      alert("L'audio si sta caricando o richiede i permessi. Clicca in uno spazio vuoto della pagina e poi riprova.");
+      console.error("Errore avvio pioggia:", e);
+    });
   }
-  isFocusSoundPlaying = !isFocusSoundPlaying;
 }
-
 function updatePomodoroDisplay() {
   const m = Math.floor(pomodoroTime / 60).toString().padStart(2, '0');
   const s = (pomodoroTime % 60).toString().padStart(2, '0');
