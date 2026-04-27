@@ -4,20 +4,27 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Piano di Studio — 10 Giorni</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0e0e10;
-    --surface: #17171a;
-    --border: #2a2a2f;
-    --accent: #c8f135;
-    --accent2: #5b8aff;
-    --accent3: #ff6b6b;
-    --text: #f0f0f0;
-    --muted: #888;
-    --phase1: #5b8aff;
-    --phase2: #c8f135;
-    --phase3: #ff6b6b;
+    /* Toni base ammorbiditi (Grigio Antracite Caldo) */
+    --bg: #222225;
+    --surface: #2a2a2e;
+    --border: #3f3f46;
+    
+    /* Colori di accento eleganti/accademici */
+    --accent: #d4b872; /* Oro antico */
+    --accent2: #6ea8ba; /* Blu carta da zucchero */
+    --accent3: #cd7b7b; /* Rosa antico / Mattone chiaro */
+    
+    /* Testi */
+    --text: #e2e2e6;
+    --muted: #95959e;
+    
+    /* Fasi */
+    --phase1: #6ea8ba;
+    --phase2: #d4b872;
+    --phase3: #cd7b7b;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -25,9 +32,10 @@
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'DM Mono', monospace;
+    font-family: 'Inter', sans-serif;
     min-height: 100vh;
     padding: 20px 20px 80px;
+    line-height: 1.5;
   }
 
   header {
@@ -38,33 +46,32 @@
 
   .tag {
     display: inline-block;
-    font-family: 'DM Mono', monospace;
     font-size: 11px;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
+    font-weight: 600;
     color: var(--accent);
     border: 1px solid var(--accent);
     padding: 4px 10px;
-    border-radius: 2px;
+    border-radius: 6px;
     margin-bottom: 20px;
   }
 
   h1 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(36px, 6vw, 72px);
-    font-weight: 800;
-    line-height: 1;
-    letter-spacing: -2px;
+    font-family: 'Lora', serif;
+    font-size: clamp(32px, 6vw, 64px);
+    font-weight: 600;
+    line-height: 1.1;
     color: var(--text);
     margin-bottom: 12px;
   }
 
-  h1 span { color: var(--accent); }
+  h1 span { color: var(--accent); font-style: italic; }
 
   .subtitle {
     color: var(--muted);
-    font-size: 13px;
-    letter-spacing: 0.05em;
+    font-size: 14px;
+    font-weight: 400;
   }
 
   .progress-section {
@@ -76,7 +83,8 @@
     position: sticky;
     top: 10px;
     z-index: 1000;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    border-radius: 8px;
   }
 
   .progress-header {
@@ -87,23 +95,24 @@
   }
 
   .progress-label {
-    font-size: 10px;
-    letter-spacing: 0.15em;
+    font-size: 11px;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
     color: var(--muted);
+    font-weight: 600;
   }
 
   .progress-pct {
-    font-family: 'Syne', sans-serif;
-    font-size: 18px;
-    font-weight: 700;
+    font-family: 'Lora', serif;
+    font-size: 20px;
+    font-weight: 600;
     color: var(--accent);
   }
 
   .progress-track {
-    height: 4px;
+    height: 6px;
     background: var(--border);
-    border-radius: 2px;
+    border-radius: 4px;
     overflow: hidden;
     margin-bottom: 12px;
   }
@@ -111,7 +120,7 @@
   .progress-fill {
     height: 100%;
     background: var(--accent);
-    border-radius: 2px;
+    border-radius: 4px;
     transition: width 0.5s ease;
   }
 
@@ -123,12 +132,13 @@
   .progress-day {
     flex: 1;
     height: 28px;
-    border-radius: 2px;
+    border-radius: 4px;
     background: var(--border);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 10px;
+    font-size: 11px;
+    font-weight: 500;
     color: var(--muted);
     cursor: pointer;
     transition: all 0.2s;
@@ -136,8 +146,8 @@
   }
 
   .progress-day.done {
-    background: rgba(200, 241, 53, 0.15);
-    border-color: rgba(200, 241, 53, 0.3);
+    background: rgba(212, 184, 114, 0.15); /* Basato su accent */
+    border-color: rgba(212, 184, 114, 0.3);
     color: var(--accent);
   }
 
@@ -155,22 +165,24 @@
     padding: 20px 24px;
     flex: 1;
     min-width: 150px;
+    border-radius: 8px;
   }
 
   .stat-num {
-    font-family: 'Syne', sans-serif;
-    font-size: 36px;
-    font-weight: 800;
+    font-family: 'Lora', serif;
+    font-size: 32px;
+    font-weight: 600;
     color: var(--accent);
     line-height: 1;
   }
 
   .stat-label {
-    font-size: 10px;
-    letter-spacing: 0.15em;
+    font-size: 11px;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
     color: var(--muted);
-    margin-top: 6px;
+    margin-top: 8px;
+    font-weight: 500;
   }
 
   .legend {
@@ -183,23 +195,24 @@
   }
 
   .legend-title {
-    font-size: 10px;
-    letter-spacing: 0.15em;
+    font-size: 11px;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
     color: var(--muted);
     margin-right: 4px;
+    font-weight: 600;
   }
 
   .legend-item {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 12px;
+    font-size: 13px;
   }
 
   .legend-dot {
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
   }
 
@@ -212,11 +225,10 @@
   }
 
   .phase-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    font-family: 'Lora', serif;
+    font-size: 16px;
+    font-weight: 600;
+    font-style: italic;
     white-space: nowrap;
   }
 
@@ -227,7 +239,7 @@
   }
 
   .phase-desc {
-    font-size: 11px;
+    font-size: 12px;
     color: var(--muted);
     white-space: nowrap;
   }
@@ -243,10 +255,12 @@
   .day-card {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-left: 3px solid var(--border);
+    border-left: 4px solid var(--border);
+    border-radius: 8px;
     padding: 0;
     transition: border-color 0.2s, background 0.2s;
     cursor: pointer;
+    overflow: hidden;
   }
 
   .day-card:hover { border-color: var(--accent2); }
@@ -258,14 +272,14 @@
     display: flex;
     align-items: center;
     gap: 20px;
-    padding: 16px 20px;
+    padding: 18px 20px;
     user-select: none;
   }
 
   .day-num {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Lora', serif;
     font-size: 28px;
-    font-weight: 800;
+    font-weight: 600;
     color: var(--muted);
     min-width: 42px;
     line-height: 1;
@@ -278,16 +292,15 @@
   .day-info { flex: 1; }
 
   .day-title {
-    font-family: 'Syne', sans-serif;
     font-size: 16px;
-    font-weight: 700;
+    font-weight: 600;
     margin-bottom: 4px;
+    color: var(--text);
   }
 
   .day-meta {
-    font-size: 11px;
+    font-size: 12px;
     color: var(--muted);
-    letter-spacing: 0.05em;
   }
 
   .day-right {
@@ -306,11 +319,12 @@
 
   .pill {
     font-size: 10px;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
-    padding: 3px 8px;
-    border-radius: 2px;
-    background: rgba(255,255,255,0.05);
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.03);
     border: 1px solid var(--border);
     white-space: nowrap;
   }
@@ -323,7 +337,7 @@
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 11px;
+    font-size: 12px;
     color: var(--muted);
   }
 
@@ -332,13 +346,14 @@
     height: 16px;
     accent-color: var(--accent);
     cursor: pointer;
+    border-radius: 4px;
   }
 
   .day-card.completed .day-num { opacity: 0.4; }
   .day-card.completed .day-title { text-decoration: line-through; opacity: 0.5; }
 
   .expand-icon {
-    font-size: 16px;
+    font-size: 18px;
     color: var(--muted);
     transition: transform 0.2s;
     min-width: 20px;
@@ -358,43 +373,47 @@
   .sessions {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    gap: 16px;
     margin-top: 16px;
   }
 
   @media (max-width: 600px) { .sessions { grid-template-columns: 1fr; } }
 
   .session {
-    background: rgba(255,255,255,0.03);
+    background: rgba(255,255,255,0.02);
     border: 1px solid var(--border);
-    padding: 14px;
+    border-radius: 6px;
+    padding: 16px;
   }
 
   .session-time {
     font-size: 10px;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
+    font-weight: 600;
     color: var(--muted);
     margin-bottom: 6px;
   }
 
   .session-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text);
   }
 
   .session-items {
     list-style: none;
-    font-size: 12px;
+    font-size: 13px;
     color: var(--muted);
-    line-height: 1.8;
+    line-height: 1.6;
   }
 
+  .session-items li { margin-bottom: 4px; }
   .session-items li::before {
-    content: '→ ';
+    content: '• ';
     color: var(--accent);
+    font-weight: bold;
   }
 
   /* Interattività Tabella SR */
@@ -404,15 +423,14 @@
   }
 
   .sr-section h2 {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Lora', serif;
     font-size: 24px;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    margin-bottom: 6px;
+    font-weight: 600;
+    margin-bottom: 8px;
   }
 
   .sr-section p {
-    font-size: 12px;
+    font-size: 13px;
     color: var(--muted);
     margin-bottom: 24px;
   }
@@ -420,21 +438,20 @@
   .sr-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 11px;
+    font-size: 12px;
   }
 
   .sr-table th {
     text-align: left;
-    padding: 8px 8px;
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    padding: 10px 8px;
+    font-size: 11px;
+    font-weight: 600;
     color: var(--muted);
     border-bottom: 1px solid var(--border);
   }
 
   .sr-table td {
-    padding: 8px 8px;
+    padding: 10px 8px;
     border-bottom: 1px solid var(--border);
     vertical-align: middle;
   }
@@ -444,7 +461,7 @@
   .pdf-name {
     color: var(--text);
     font-weight: 500;
-    font-size: 11px;
+    font-size: 13px;
     max-width: 220px;
     white-space: nowrap;
     overflow: hidden;
@@ -452,22 +469,22 @@
   }
 
   .dot {
-    width: 22px;
-    height: 22px;
-    border-radius: 2px;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
     background: var(--border);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 9px;
+    font-size: 10px;
     color: var(--bg);
-    font-weight: 700;
+    font-weight: 600;
     margin: auto;
     transition: all 0.2s;
   }
 
   .dot.study, .dot.active { cursor: pointer; }
-  .dot.study:hover, .dot.active:hover { transform: scale(1.1); filter: brightness(1.2); }
+  .dot.study:hover, .dot.active:hover { transform: scale(1.05); filter: brightness(1.1); }
   
   .dot.active { background: var(--phase2); }
   .dot.study { background: var(--phase1); }
@@ -475,7 +492,7 @@
   .dot.done-sr {
     background: var(--accent) !important;
     color: var(--bg) !important;
-    box-shadow: 0 0 10px rgba(200, 241, 53, 0.4);
+    box-shadow: 0 2px 8px rgba(212, 184, 114, 0.3);
   }
 
   /* --- POMODORO TIMER WIDGET --- */
@@ -486,8 +503,8 @@
     background: var(--surface);
     border: 1px solid var(--border);
     padding: 16px 20px;
-    border-radius: 4px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
     z-index: 2000;
     text-align: center;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -507,11 +524,11 @@
   }
 
   .pomodoro-title {
-    font-size: 10px;
-    letter-spacing: 0.15em;
+    font-size: 11px;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
     color: var(--accent);
-    font-weight: 700;
+    font-weight: 600;
   }
 
   .pomodoro-title.break-mode {
@@ -528,9 +545,9 @@
   }
 
   .pomodoro-time {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 36px;
-    font-weight: 800;
+    font-weight: 600;
     color: var(--text);
     margin-bottom: 16px;
     font-variant-numeric: tabular-nums;
@@ -539,7 +556,7 @@
 
   .pomodoro-controls {
     display: flex;
-    gap: 6px;
+    gap: 8px;
     justify-content: center;
     flex-wrap: wrap;
   }
@@ -548,10 +565,9 @@
     background: rgba(255,255,255,0.03);
     border: 1px solid var(--border);
     color: var(--muted);
-    padding: 6px 10px;
+    padding: 8px 12px;
     cursor: pointer;
-    border-radius: 2px;
-    font-family: 'DM Mono', monospace;
+    border-radius: 6px;
     font-size: 12px;
     transition: all 0.2s;
   }
@@ -567,10 +583,9 @@
   
   footer {
     max-width: 900px;
-    margin: 50px auto 0;
-    font-size: 11px;
+    margin: 60px auto 0;
+    font-size: 12px;
     color: var(--muted);
-    letter-spacing: 0.05em;
     text-align: center;
     border-top: 1px solid var(--border);
     padding-top: 24px;
@@ -882,7 +897,7 @@
     <div class="day-header">
       <div class="day-num">07</div>
       <div class="day-info">
-        <div class="day-title">PDF 10–13 + 17–18 · Sterilizzazione, vaccini, virus</div>
+        <div class="day-title">PDF 10–13 + 17–18 · Sterilizzazione, virus</div>
         <div class="day-meta">Ultimo sforzo di studio nuovo</div>
       </div>
       <div class="day-right">
