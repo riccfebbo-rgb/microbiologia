@@ -67,7 +67,6 @@
     letter-spacing: 0.05em;
   }
 
-  /* Progress Section Sticky */
   .progress-section {
     max-width: 900px;
     margin: 0 auto 40px;
@@ -634,7 +633,7 @@
   <div class="phase-label">
     <span class="phase-title" style="color:var(--phase1)">Fase 1 — Studio intensivo</span>
     <div class="phase-line"></div>
-    <span class="phase-desc">Giorni 1–7</span>
+    <span class="phase-desc">Giorni 1–7 · Prima lettura + schemi</span>
   </div>
 
   <div class="day-card phase-1" data-day="1" onclick="toggle(this)">
@@ -647,6 +646,7 @@
       <div class="day-right">
         <div class="day-pills">
           <span class="pill studio">Studio</span>
+          <span class="pill ripasso">Organizzazione</span>
         </div>
         <label class="day-check" onclick="event.stopPropagation()">
           <input type="checkbox" data-day="1" onchange="markDone(this)"> completato
@@ -658,17 +658,30 @@
       <div class="sessions">
         <div class="session">
           <div class="session-time">Sessione 1</div>
-          <div class="session-title">Mappatura (2h) + PDF 1</div>
+          <div class="session-title">Mappatura generale (2h) + PDF 1</div>
           <ul class="session-items">
-            <li>Scorri i 19 PDF</li>
-            <li>Prioritizza contenuti</li>
+            <li>Scorri tutti i 19 PDF (5–10 min ciascuno)</li>
+            <li>Annota: lunghezza, difficoltà, argomento</li>
+            <li>Prioritizza da 1 (cruciale) a 3 (secondario)</li>
+            <li>Prima lettura completa PDF 1 (Introduzione al corso) + schema</li>
           </ul>
         </div>
         <div class="session">
           <div class="session-time">Sessione 2</div>
           <div class="session-title">PDF 2 — Rischio biologico</div>
           <ul class="session-items">
-            <li>Agenti e DPI</li>
+            <li>Prima lettura: rischio biologico, classi agenti, DPI</li>
+            <li>Crea schema/mappa concettuale</li>
+            <li>Collegamento concetti PDF 1 ↔ PDF 2</li>
+          </ul>
+        </div>
+        <div class="session">
+          <div class="session-time">Sessione 3</div>
+          <div class="session-title">Rielaborazione attiva</div>
+          <ul class="session-items">
+            <li>Ripassi schemi PDF 1 e 2 ad alta voce</li>
+            <li>Scrivi 5 domande possibili per ciascuno</li>
+            <li>Flashcard dei concetti chiave</li>
           </ul>
         </div>
       </div>
@@ -678,14 +691,304 @@
   <div class="day-card phase-1" data-day="2" onclick="toggle(this)">
     <div class="day-header">
       <div class="day-num">02</div>
-      <div class="day-info"><div class="day-title">PDF 3–4 + Ripasso PDF 1</div><div class="day-meta">Citologia Batterica</div></div>
+      <div class="day-info">
+        <div class="day-title">PDF 3–4 + Primo ripasso PDF 1</div>
+        <div class="day-meta">Ritmo di crociera e citologia</div>
+      </div>
       <div class="day-right">
-        <label class="day-check" onclick="event.stopPropagation()"><input type="checkbox" data-day="2" onchange="markDone(this)"> completato</label>
+        <div class="day-pills">
+          <span class="pill studio">Studio</span>
+          <span class="pill ripasso">Ripasso ×1</span>
+        </div>
+        <label class="day-check" onclick="event.stopPropagation()">
+          <input type="checkbox" data-day="2" onchange="markDone(this)"> completato
+        </label>
+      </div>
+      <div class="expand-icon">▾</div>
+    </div>
+    <div class="day-body">
+      <div class="sessions">
+        <div class="session">
+          <div class="session-time">Sessione 1</div>
+          <div class="session-title">PDF 3 — Struttura cellula batterica</div>
+          <ul class="session-items">
+            <li>Strutture obbligatorie e facoltative</li>
+            <li>Disegna la cellula batterica a mano + schema</li>
+          </ul>
+        </div>
+        <div class="session">
+          <div class="session-time">Sessione 2</div>
+          <div class="session-title">PDF 3.1 — Coltivazione e identificazione</div>
+          <ul class="session-items">
+            <li>Tecniche di coltura in vitro, terreni</li>
+            <li>Schema e connessioni con PDF 3</li>
+          </ul>
+        </div>
+        <div class="session">
+          <div class="session-time">Sessione 3</div>
+          <div class="session-title">⟳ Ripasso PDF 1</div>
+          <ul class="session-items">
+            <li>Rileggi solo i tuoi schemi</li>
+            <li>Esponi ad alta voce senza guardare</li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
 
+  <div class="day-card phase-1" data-day="3" onclick="toggle(this)">
+    <div class="day-header">
+      <div class="day-num">03</div>
+      <div class="day-info">
+        <div class="day-title">PDF 3.2 + 4 + Ripasso PDF 2</div>
+        <div class="day-meta">Metabolismo e Virulenza</div>
+      </div>
+      <div class="day-right">
+        <div class="day-pills">
+          <span class="pill studio">Studio</span>
+          <span class="pill ripasso">Ripasso ×1</span>
+        </div>
+        <label class="day-check" onclick="event.stopPropagation()">
+          <input type="checkbox" data-day="3" onchange="markDone(this)"> completato
+        </label>
+      </div>
+      <div class="expand-icon">▾</div>
+    </div>
+    <div class="day-body">
+      <div class="sessions">
+        <div class="session">
+          <div class="session-time">Sessione 1</div>
+          <div class="session-title">PDF 3.2 — Crescita e metabolismo</div>
+          <ul class="session-items">
+            <li>Curve di crescita e metabolismi microbici</li>
+          </ul>
+        </div>
+        <div class="session">
+          <div class="session-time">Sessione 2</div>
+          <div class="session-title">PDF 4 — Patogenicità e virulenza</div>
+          <ul class="session-items">
+            <li>Fattori di virulenza: tossine, capsula, adesine</li>
+          </ul>
+        </div>
+        <div class="session">
+          <div class="session-time">Sessione 3</div>
+          <div class="session-title">⟳ Ripasso PDF 2</div>
+          <ul class="session-items">
+            <li>Esponi PDF 2 ad alta voce</li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <div class="day-card phase-1" data-day="4" onclick="toggle(this)">
+    <div class="day-header">
+      <div class="day-num">04</div>
+      <div class="day-info">
+        <div class="day-title">PDF 5 + 6.1 + Ripasso PDF 1, 3</div>
+        <div class="day-meta">Microbiota e Spore</div>
+      </div>
+      <div class="day-right">
+        <div class="day-pills">
+          <span class="pill studio">Studio</span>
+          <span class="pill ripasso">Ripasso ×2</span>
+        </div>
+        <label class="day-check" onclick="event.stopPropagation()">
+          <input type="checkbox" data-day="4" onchange="markDone(this)"> completato
+        </label>
+      </div>
+      <div class="expand-icon">▾</div>
+    </div>
+    <div class="day-body">
+      <div class="sessions">
+        <div class="session">
+          <div class="session-title">PDF 5 — Microbiota + Probiotici</div>
+          <ul class="session-items">
+            <li>Eubiosi, disbiosi, pre/pro/postbiotici</li>
+          </ul>
+        </div>
+        <div class="session">
+          <div class="session-title">PDF 6.1 — Spore batteriche</div>
+          <ul class="session-items">
+            <li>Sporulazione e resistenza</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-card phase-1" data-day="5" onclick="toggle(this)">
+    <div class="day-header">
+      <div class="day-num">05</div>
+      <div class="day-info">
+        <div class="day-title">PDF 7 + 7.1 + Ripasso PDF 2, 4</div>
+        <div class="day-meta">Biofilm e Resistenze</div>
+      </div>
+      <div class="day-right">
+        <div class="day-pills">
+          <span class="pill studio">Studio</span>
+          <span class="pill ripasso">Ripasso ×2</span>
+        </div>
+        <label class="day-check" onclick="event.stopPropagation()">
+          <input type="checkbox" data-day="5" onchange="markDone(this)"> completato
+        </label>
+      </div>
+      <div class="expand-icon">▾</div>
+    </div>
+    <div class="day-body">
+      <div class="sessions">
+        <div class="session">
+          <div class="session-title">PDF 7 — VBNC e Biofilm</div>
+          <ul class="session-items">
+            <li>Formazione biofilm e resistenza clinica</li>
+          </ul>
+        </div>
+        <div class="session">
+          <div class="session-title">PDF 7.1 — Antibiogramma</div>
+          <ul class="session-items">
+            <li>Valutazione MIC e disco-diffusione</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-card phase-1" data-day="6" onclick="toggle(this)">
+    <div class="day-header">
+      <div class="day-num">06</div>
+      <div class="day-info">
+        <div class="day-title">PDF 7.3 + 7-Chemio + Ripasso PDF 3.2, 5, 6.1</div>
+        <div class="day-meta">Genetica e Antibiotici</div>
+      </div>
+      <div class="day-right">
+        <div class="day-pills">
+          <span class="pill studio">Studio</span>
+          <span class="pill ripasso">Ripasso ×3</span>
+        </div>
+        <label class="day-check" onclick="event.stopPropagation()">
+          <input type="checkbox" data-day="6" onchange="markDone(this)"> completato
+        </label>
+      </div>
+      <div class="expand-icon">▾</div>
+    </div>
+    <div class="day-body">
+      <div class="sessions">
+        <div class="session">
+          <div class="session-title">PDF 7.3 / 7-Chemio</div>
+          <ul class="session-items">
+            <li>Trasformazione, coniugazione, trasduzione</li>
+            <li>Meccanismi d'azione e di resistenza</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-card phase-1" data-day="7" onclick="toggle(this)">
+    <div class="day-header">
+      <div class="day-num">07</div>
+      <div class="day-info">
+        <div class="day-title">PDF 10–13 + 17–18 · Sterilizzazione, vaccini, virus</div>
+        <div class="day-meta">Ultimo sforzo di studio nuovo</div>
+      </div>
+      <div class="day-right">
+        <div class="day-pills">
+          <span class="pill studio">Studio</span>
+          <span class="pill ripasso">Ripasso ×2</span>
+        </div>
+        <label class="day-check" onclick="event.stopPropagation()">
+          <input type="checkbox" data-day="7" onchange="markDone(this)"> completato
+        </label>
+      </div>
+      <div class="expand-icon">▾</div>
+    </div>
+    <div class="day-body">
+      <div class="sessions">
+        <div class="session">
+          <div class="session-title">Blocco Finale</div>
+          <ul class="session-items">
+            <li>Vaccini, Infezioni Nosocomiali, Sterilizzazione</li>
+            <li>Cosmetologia, Batteriofagi e Virus</li>
+            <li>One Health + Saggi</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase-label" style="margin-top:24px">
+    <span class="phase-title" style="color:var(--phase2)">Fase 2 — Consolidamento</span>
+    <div class="phase-line"></div>
+    <span class="phase-desc">Giorni 8–9 · Ripasso sistematico</span>
+  </div>
+
+  <div class="day-card phase-2" data-day="8" onclick="toggle(this)">
+    <div class="day-header">
+      <div class="day-num">08</div>
+      <div class="day-info">
+        <div class="day-title">Ripasso PDF 1–10</div>
+        <div class="day-meta">Prima metà del programma</div>
+      </div>
+      <div class="day-right">
+        <div class="day-pills">
+          <span class="pill ripasso">Ripasso ×10</span>
+          <span class="pill simulazione">Esposizione</span>
+        </div>
+        <label class="day-check" onclick="event.stopPropagation()">
+          <input type="checkbox" data-day="8" onchange="markDone(this)"> completato
+        </label>
+      </div>
+      <div class="expand-icon">▾</div>
+    </div>
+  </div>
+
+  <div class="day-card phase-2" data-day="9" onclick="toggle(this)">
+    <div class="day-header">
+      <div class="day-num">09</div>
+      <div class="day-info">
+        <div class="day-title">Ripasso PDF 11–19</div>
+        <div class="day-meta">Seconda metà del programma</div>
+      </div>
+      <div class="day-right">
+        <div class="day-pills">
+          <span class="pill ripasso">Ripasso ×9</span>
+          <span class="pill simulazione">Esposizione</span>
+        </div>
+        <label class="day-check" onclick="event.stopPropagation()">
+          <input type="checkbox" data-day="9" onchange="markDone(this)"> completato
+        </label>
+      </div>
+      <div class="expand-icon">▾</div>
+    </div>
+  </div>
+
+  <div class="phase-label" style="margin-top:24px">
+    <span class="phase-title" style="color:var(--phase3)">Fase 3 — Simulazione</span>
+    <div class="phase-line"></div>
+    <span class="phase-desc">Giorno 10 · Ripasso finale</span>
+  </div>
+
+  <div class="day-card phase-3" data-day="10" onclick="toggle(this)">
+    <div class="day-header">
+      <div class="day-num">10</div>
+      <div class="day-info">
+        <div class="day-title">Simulazione orale completa</div>
+        <div class="day-meta">Target: Padronanza totale</div>
+      </div>
+      <div class="day-right">
+        <div class="day-pills">
+          <span class="pill simulazione">Simulazione</span>
+          <span class="pill ripasso">Finale</span>
+        </div>
+        <label class="day-check" onclick="event.stopPropagation()">
+          <input type="checkbox" data-day="10" onchange="markDone(this)"> completato
+        </label>
+      </div>
+      <div class="expand-icon">▾</div>
+    </div>
+  </div>
+
+</div>
 
 <div class="sr-section">
   <h2>Schema Spaced Repetition Interattivo</h2>
@@ -810,30 +1113,100 @@ pdfSchedule.forEach((item, index) => {
   tbody.appendChild(tr);
 });
 
-// --- LOGICA AUDIO E POMODORO ---
-const clickSound = new Audio('https://actions.google.com/sounds/v1/ui/button_click.ogg');
-const alertSound = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg');
-const focusSound = new Audio('https://actions.google.com/sounds/v1/water/rain_on_roof.ogg');
-focusSound.loop = true;
-focusSound.volume = 0.4;
+// --- LOGICA AUDIO GENERATIVO (WEB AUDIO API) ---
+let audioCtx = null;
 
-let audioUnlocked = false;
-function unlockAudio() {
-  if (audioUnlocked) return;
-  [clickSound, alertSound, focusSound].forEach(a => {
-    a.play().then(() => { a.pause(); a.currentTime = 0; }).catch(e => {});
-  });
-  audioUnlocked = true;
-  document.removeEventListener('click', unlockAudio);
+function initAudio() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
 }
-document.addEventListener('click', unlockAudio);
 
-function playClick() { if (audioUnlocked) { clickSound.currentTime = 0; clickSound.play(); } }
+function playClick() {
+  initAudio();
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+  gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+  osc.start();
+  osc.stop(audioCtx.currentTime + 0.1);
+}
 
+function playAlert() {
+  initAudio();
+  const playTone = (freq, startTime) => {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.type = 'square';
+    osc.frequency.setValueAtTime(freq, startTime);
+    gain.gain.setValueAtTime(0.05, startTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.2);
+    osc.start(startTime);
+    osc.stop(startTime + 0.2);
+  };
+  const now = audioCtx.currentTime;
+  playTone(880, now);
+  playTone(880, now + 0.3);
+}
+
+let noiseSource = null;
+let noiseGain = null;
+let isFocusSoundPlaying = false;
+
+function toggleFocusSound() {
+  playClick();
+  const btn = document.getElementById('audioBtn');
+  
+  if (isFocusSoundPlaying) {
+    if (noiseGain) noiseGain.gain.setTargetAtTime(0, audioCtx.currentTime, 0.5);
+    setTimeout(() => {
+      if (noiseSource) { noiseSource.stop(); noiseSource.disconnect(); noiseSource = null; }
+    }, 1000);
+    btn.classList.remove('audio-on');
+    isFocusSoundPlaying = false;
+  } else {
+    initAudio();
+    const bufferSize = 2 * audioCtx.sampleRate;
+    const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+    const output = noiseBuffer.getChannelData(0);
+    let lastOut = 0;
+    for (let i = 0; i < bufferSize; i++) {
+      const white = Math.random() * 2 - 1;
+      output[i] = (lastOut + (0.02 * white)) / 1.02;
+      lastOut = output[i];
+      output[i] *= 3.5; 
+    }
+    
+    noiseSource = audioCtx.createBufferSource();
+    noiseSource.buffer = noiseBuffer;
+    noiseSource.loop = true;
+    
+    noiseGain = audioCtx.createGain();
+    noiseGain.gain.setValueAtTime(0, audioCtx.currentTime);
+    noiseGain.gain.setTargetAtTime(0.5, audioCtx.currentTime, 2);
+    
+    noiseSource.connect(noiseGain);
+    noiseGain.connect(audioCtx.destination);
+    noiseSource.start();
+    
+    btn.classList.add('audio-on');
+    isFocusSoundPlaying = true;
+  }
+}
+
+// --- LOGICA POMODORO TIMER ---
 let pomodoroTime = 50 * 60;
 let isStudyMode = true;
 let timerInterval = null;
-let isFocusSoundPlaying = false;
 
 const timeDisplay = document.getElementById('pomodoroTime');
 const modeDisplay = document.getElementById('pomodoroMode');
@@ -850,12 +1223,16 @@ function startPomodoro() {
   playClick();
   if (timerInterval) return;
   timerInterval = setInterval(() => {
-    if (pomodoroTime > 0) { pomodoroTime--; updatePomodoroDisplay(); }
-    else {
+    if (pomodoroTime > 0) { 
+      pomodoroTime--; 
+      updatePomodoroDisplay(); 
+    } else {
       pausePomodoroLogic();
-      alertSound.play();
-      alert(isStudyMode ? "Studio finito! Pausa 10 min." : "Pausa finita! Riprendi.");
-      switchPomodoroMode(false);
+      playAlert();
+      setTimeout(() => {
+          alert(isStudyMode ? "Studio finito! Pausa 10 min." : "Pausa finita! Riprendi.");
+          switchPomodoroMode(false);
+      }, 500);
     }
   }, 1000);
 }
@@ -863,7 +1240,12 @@ function startPomodoro() {
 function pausePomodoro() { playClick(); pausePomodoroLogic(); }
 function pausePomodoroLogic() { clearInterval(timerInterval); timerInterval = null; }
 
-function resetPomodoro() { playClick(); pausePomodoroLogic(); pomodoroTime = isStudyMode ? 50 * 60 : 10 * 60; updatePomodoroDisplay(); }
+function resetPomodoro() { 
+  playClick(); 
+  pausePomodoroLogic(); 
+  pomodoroTime = isStudyMode ? 50 * 60 : 10 * 60; 
+  updatePomodoroDisplay(); 
+}
 
 function switchPomodoroMode(click = true) {
   if(click) playClick();
@@ -875,13 +1257,10 @@ function switchPomodoroMode(click = true) {
   updatePomodoroDisplay();
 }
 
-function togglePomodoro() { playClick(); widget.classList.toggle('minimized'); document.getElementById('pomodoroIcon').textContent = widget.classList.contains('minimized') ? '▴' : '▾'; }
-
-function toggleFocusSound() {
-  playClick();
-  const btn = document.getElementById('audioBtn');
-  if (isFocusSoundPlaying) { focusSound.pause(); btn.classList.remove('audio-on'); isFocusSoundPlaying = false; }
-  else { focusSound.play().then(() => { btn.classList.add('audio-on'); isFocusSoundPlaying = true; }).catch(e => alert("Clicca sulla pagina prima!")); }
+function togglePomodoro() { 
+  playClick(); 
+  widget.classList.toggle('minimized'); 
+  document.getElementById('pomodoroIcon').textContent = widget.classList.contains('minimized') ? '▴' : '▾'; 
 }
 
 updatePomodoroDisplay();
