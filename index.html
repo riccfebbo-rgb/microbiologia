@@ -492,7 +492,6 @@
     position: fixed;
     bottom: 30px;
     right: 30px;
-    /* Effetto Traslucido iOS */
     background: rgba(255, 255, 255, 0.75);
     backdrop-filter: saturate(180%) blur(20px);
     -webkit-backdrop-filter: saturate(180%) blur(20px);
@@ -994,13 +993,79 @@
   </div>
 </div>
 
-<footer>Piano 10 giorni · Stile iOS · Metodo SR</footer>
+<footer>Piano 10 giorni · Stile iOS · Interazioni Sonore</footer>
 
 <script>
-// --- LOGICA ACCORDION E PROGRESS BAR ---
-function toggle(card) { card.classList.toggle('open'); }
+// --- SISTEMA AUDIO (WEB AUDIO API) ---
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+let audioCtx;
 
-const STORAGE_KEY = 'microbio_done_days_ios';
+function initAudio() {
+  if (!audioCtx) audioCtx = new AudioContext();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+}
+
+function playSound(type) {
+  initAudio();
+  const osc = audioCtx.createOscillator();
+  const gainNode = audioCtx.createGain();
+  
+  osc.connect(gainNode);
+  gainNode.connect(audioCtx.destination);
+  
+  const now = audioCtx.currentTime;
+
+  if (type === 'click') {
+    // Suono breve da tap (es: apertura menu)
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(600, now);
+    osc.frequency.exponentialRampToValueAtTime(300, now + 0.05);
+    gainNode.gain.setValueAtTime(0.2, now);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+    osc.start(now);
+    osc.stop(now + 0.05);
+  } else if (type === 'check') {
+    // Suono ascendente (successo / spunta)
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(400, now);
+    osc.frequency.setValueAtTime(600, now + 0.08);
+    gainNode.gain.setValueAtTime(0.1, now);
+    gainNode.gain.linearRampToValueAtTime(0.2, now + 0.08);
+    gainNode.gain.linearRampToValueAtTime(0.01, now + 0.15);
+    osc.start(now);
+    osc.stop(now + 0.15);
+  } else if (type === 'uncheck') {
+    // Suono discendente (rimozione spunta)
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(500, now);
+    osc.frequency.setValueAtTime(300, now + 0.08);
+    gainNode.gain.setValueAtTime(0.1, now);
+    gainNode.gain.linearRampToValueAtTime(0.1, now + 0.08);
+    gainNode.gain.linearRampToValueAtTime(0.01, now + 0.15);
+    osc.start(now);
+    osc.stop(now + 0.15);
+  } else if (type === 'action') {
+    // Suono tasti pomodoro
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(440, now);
+    gainNode.gain.setValueAtTime(0.1, now);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+    osc.start(now);
+    osc.stop(now + 0.1);
+  }
+}
+
+// Inizializza l'audio al primo click sulla pagina (browser policy)
+document.body.addEventListener('click', initAudio, { once: true });
+
+
+// --- LOGICA ACCORDION E PROGRESS BAR ---
+function toggle(card) { 
+  playSound('click');
+  card.classList.toggle('open'); 
+}
+
+const STORAGE_KEY = 'microbio_done_days_ios_snd';
 let doneDays = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
 
 function buildProgressBar() {
@@ -1011,10 +1076,11 @@ function buildProgressBar() {
     el.className = 'progress-day' + (doneDays.includes(d) ? ' done' : '');
     el.textContent = d;
     el.onclick = () => {
+      playSound('click');
       const card = document.querySelector('[data-day="' + d + '"]');
       if (card) {
         card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        if(!card.classList.contains('open')) toggle(card);
+        if(!card.classList.contains('open')) card.classList.add('open');
       }
     };
     container.appendChild(el);
@@ -1028,9 +1094,11 @@ function markDone(checkbox) {
   const day = parseInt(checkbox.dataset.day);
   const card = checkbox.closest('.day-card');
   if (checkbox.checked) {
+    playSound('check');
     if (!doneDays.includes(day)) doneDays.push(day);
     card.classList.add('completed');
   } else {
+    playSound('uncheck');
     doneDays = doneDays.filter(d => d !== day);
     card.classList.remove('completed');
   }
@@ -1065,13 +1133,18 @@ const pdfSchedule = [
   { pdf: "10-18 Altri", study: 7, reviews: [9, 10] }
 ];
 
-const SR_STORAGE_KEY = 'microbio_sr_state_ios';
+const SR_STORAGE_KEY = 'microbio_sr_state_ios_snd';
 let srState = JSON.parse(localStorage.getItem(SR_STORAGE_KEY) || '{}');
 
 function toggleSR(id, el) {
   el.classList.toggle('done-sr');
-  if (el.classList.contains('done-sr')) srState[id] = true;
-  else delete srState[id];
+  if (el.classList.contains('done-sr')) {
+    playSound('check');
+    srState[id] = true;
+  } else {
+    playSound('uncheck');
+    delete srState[id];
+  }
   localStorage.setItem(SR_STORAGE_KEY, JSON.stringify(srState));
 }
 
@@ -1107,6 +1180,7 @@ function updatePomodoroDisplay() {
 }
 
 function startPomodoro() {
+  playSound('action');
   if (timerInterval) return;
   timerInterval = setInterval(() => {
     if (pomodoroTime > 0) { 
@@ -1114,13 +1188,17 @@ function startPomodoro() {
       updatePomodoroDisplay(); 
     } else {
       pausePomodoroLogic();
-      alert(isStudyMode ? "Studio finito! Pausa 10 min." : "Pausa finita! Riprendi.");
-      switchPomodoroMode();
+      playSound('check'); // Suono di fine timer
+      setTimeout(() => {
+        alert(isStudyMode ? "Studio finito! Pausa 10 min." : "Pausa finita! Riprendi.");
+        switchPomodoroMode();
+      }, 500);
     }
   }, 1000);
 }
 
 function pausePomodoro() { 
+  playSound('action');
   pausePomodoroLogic(); 
 }
 
@@ -1130,12 +1208,14 @@ function pausePomodoroLogic() {
 }
 
 function resetPomodoro() { 
+  playSound('action');
   pausePomodoroLogic(); 
   pomodoroTime = isStudyMode ? 50 * 60 : 10 * 60; 
   updatePomodoroDisplay(); 
 }
 
 function switchPomodoroMode() {
+  playSound('click');
   pausePomodoroLogic();
   isStudyMode = !isStudyMode;
   pomodoroTime = isStudyMode ? 50 * 60 : 10 * 60;
@@ -1145,6 +1225,7 @@ function switchPomodoroMode() {
 }
 
 function togglePomodoro() { 
+  playSound('click');
   widget.classList.toggle('minimized'); 
   document.getElementById('pomodoroIcon').textContent = widget.classList.contains('minimized') ? '▴' : '▾'; 
 }
