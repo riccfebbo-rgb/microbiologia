@@ -3,171 +3,200 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Piano di Studio — 10 Giorni</title>
+<title>Piano di Studio — iOS 20 Spatial Style</title>
 <style>
   :root {
-    /* iOS System Colors (Light Mode) */
-    --bg: #F2F2F7; /* iOS Grouped Background */
-    --surface: #FFFFFF;
-    --border: #E5E5EA; /* iOS Separator */
+    /* iOS 20 / visionOS Palette */
+    --text: #1d1d1f;
+    --muted: #86868b;
+    --label-secondary: rgba(60, 60, 67, 0.6);
     
-    /* Text Colors */
-    --text: #000000;
-    --muted: #8E8E93; /* iOS System Gray */
-    
-    /* iOS Accent Colors */
-    --accent: #007AFF; /* iOS Blue */
-    --accent2: #34C759; /* iOS Green */
-    --accent3: #FF3B30; /* iOS Red */
+    /* Glowing Accents */
+    --accent: #0A7AFF;
+    --accent-glow: rgba(10, 122, 255, 0.3);
+    --accent2: #30D158;
+    --accent3: #FF453A;
     
     /* Fasi */
-    --phase1: #007AFF; /* Blue */
-    --phase2: #FF9500; /* iOS Orange */
-    --phase3: #FF3B30; /* Red */
+    --phase1: #0A7AFF; 
+    --phase2: #FF9F0A; 
+    --phase3: #FF453A; 
+
+    /* Glass Materials */
+    --glass-bg: rgba(255, 255, 255, 0.55);
+    --glass-border: rgba(255, 255, 255, 0.8);
+    --glass-shadow: 0 16px 40px rgba(0, 0, 0, 0.06);
+    --glass-blur: blur(40px) saturate(180%);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    background: var(--bg);
+    /* Ambient Background Mesh */
+    background: radial-gradient(circle at 0% 0%, #E2EAFC 0%, transparent 50%), 
+                radial-gradient(circle at 100% 100%, #FDE4EB 0%, transparent 50%),
+                #F5F5F7;
+    background-attachment: fixed;
     color: var(--text);
-    /* Font nativo Apple (San Francisco) */
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
     min-height: 100vh;
-    padding: 20px 20px 80px;
-    line-height: 1.5;
+    padding: 24px 20px 100px;
+    line-height: 1.4;
     -webkit-font-smoothing: antialiased;
+    letter-spacing: -0.015em;
   }
 
   header {
     max-width: 900px;
-    margin: 40px auto 30px;
-    text-align: left;
+    margin: 40px auto 32px;
   }
 
   .tag {
-    display: inline-block;
-    font-size: 11px;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
+    display: inline-flex;
+    font-size: 13px;
+    letter-spacing: -0.01em;
     font-weight: 700;
     color: var(--accent);
-    background: rgba(0, 122, 255, 0.1);
-    padding: 6px 12px;
-    border-radius: 20px;
-    margin-bottom: 16px;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    padding: 8px 16px;
+    border-radius: 999px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px var(--accent-glow);
   }
 
   h1 {
-    font-size: clamp(34px, 6vw, 56px);
+    font-size: clamp(38px, 8vw, 60px);
     font-weight: 800;
     letter-spacing: -0.04em;
-    line-height: 1.1;
+    line-height: 1.05;
     color: var(--text);
     margin-bottom: 12px;
   }
 
-  h1 span { color: var(--accent); }
+  h1 span { 
+    background: linear-gradient(135deg, #0A7AFF, #5E5CE6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 
   .subtitle {
     color: var(--muted);
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+
+  /* Core Spatial Glass Class */
+  .spatial-card {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: 32px; /* Super rounded corners */
+    box-shadow: var(--glass-shadow);
   }
 
   .progress-section {
     max-width: 900px;
-    margin: 0 auto 30px;
-    background: var(--surface);
-    padding: 20px 24px;
+    margin: 0 auto 32px;
+    padding: 24px 32px;
     position: sticky;
-    top: 10px;
+    top: 16px;
     z-index: 1000;
-    border-radius: 18px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
   }
 
   .progress-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
+    align-items: flex-end;
+    margin-bottom: 16px;
   }
 
   .progress-label {
-    font-size: 13px;
-    text-transform: uppercase;
-    color: var(--muted);
+    font-size: 15px;
+    color: var(--label-secondary);
     font-weight: 600;
-    letter-spacing: -0.01em;
   }
 
   .progress-pct {
-    font-size: 22px;
-    font-weight: 700;
+    font-size: 32px;
+    font-weight: 800;
     color: var(--accent);
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    text-shadow: 0 2px 10px var(--accent-glow);
   }
 
   .progress-track {
-    height: 8px;
-    background: var(--border);
-    border-radius: 10px;
+    height: 14px;
+    background: rgba(0,0,0,0.05);
+    border-radius: 999px;
     overflow: hidden;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
   }
 
   .progress-fill {
     height: 100%;
-    background: var(--accent);
-    border-radius: 10px;
-    transition: width 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    background: linear-gradient(90deg, #0A7AFF, #5E5CE6);
+    border-radius: 999px;
+    transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1); /* Spring-like */
+    box-shadow: 0 0 10px var(--accent-glow);
   }
 
   .progress-days {
     display: flex;
-    gap: 8px;
+    gap: 10px;
   }
 
   .progress-day {
     flex: 1;
-    height: 32px;
-    border-radius: 8px;
-    background: var(--bg);
+    height: 40px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.4);
+    border: 1px solid rgba(255,255,255,0.5);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 13px;
-    font-weight: 600;
+    font-size: 16px;
+    font-weight: 700;
     color: var(--muted);
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
+  .progress-day:hover { transform: translateY(-2px); background: rgba(255,255,255,0.8); }
+
   .progress-day.done {
-    background: var(--accent);
+    background: linear-gradient(135deg, #0A7AFF, #005ECC);
     color: white;
+    border: none;
+    box-shadow: 0 4px 12px var(--accent-glow);
   }
 
   .stats-row {
     display: flex;
-    gap: 16px;
+    gap: 20px;
     flex-wrap: wrap;
     max-width: 900px;
-    margin: 0 auto 40px;
+    margin: 0 auto 48px;
   }
 
   .stat {
-    background: var(--surface);
-    padding: 24px;
+    padding: 28px;
     flex: 1;
     min-width: 150px;
-    border-radius: 18px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 
   .stat-num {
-    font-size: 36px;
+    font-size: 44px;
     font-weight: 800;
     letter-spacing: -0.04em;
     color: var(--text);
@@ -175,65 +204,57 @@
   }
 
   .stat-label {
-    font-size: 13px;
-    color: var(--muted);
+    font-size: 14px;
+    color: var(--label-secondary);
     margin-top: 8px;
-    font-weight: 500;
+    font-weight: 600;
   }
 
   .legend {
     max-width: 900px;
-    margin: 0 auto 30px;
+    margin: 0 auto 24px;
     display: flex;
-    gap: 20px;
+    gap: 24px;
     flex-wrap: wrap;
     align-items: center;
-  }
-
-  .legend-title {
-    font-size: 13px;
-    color: var(--muted);
-    font-weight: 600;
+    padding: 0 16px;
   }
 
   .legend-item {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--muted);
   }
 
   .legend-dot {
     width: 12px;
     height: 12px;
     border-radius: 50%;
+    box-shadow: 0 0 8px currentColor;
   }
 
   .phase-label {
     max-width: 900px;
-    margin: 20px auto 12px;
+    margin: 40px auto 20px;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 16px;
+    padding: 0 16px;
   }
 
   .phase-title {
-    font-size: 17px;
-    font-weight: 700;
-    letter-spacing: -0.02em;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
   }
 
   .phase-line {
     flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-
-  .phase-desc {
-    font-size: 13px;
-    color: var(--muted);
-    font-weight: 500;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(0,0,0,0.05), transparent);
   }
 
   .days-grid {
@@ -241,212 +262,243 @@
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 24px; 
   }
 
   .day-card {
-    background: var(--surface);
-    border-radius: 18px;
     padding: 0;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s;
     cursor: pointer;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
     overflow: hidden;
   }
 
-  .day-card:active { transform: scale(0.98); }
+  .day-card:active { transform: scale(0.96); box-shadow: 0 4px 16px rgba(0,0,0,0.04); }
 
   .day-header {
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 20px;
+    gap: 20px;
+    padding: 28px 32px;
     user-select: none;
   }
 
   .day-num {
-    font-size: 28px;
+    font-size: 36px;
     font-weight: 800;
     color: var(--text);
-    min-width: 42px;
+    min-width: 54px;
     line-height: 1;
     letter-spacing: -0.04em;
   }
 
-  .day-card.phase-1 .day-num { color: var(--phase1); }
-  .day-card.phase-2 .day-num { color: var(--phase2); }
-  .day-card.phase-3 .day-num { color: var(--phase3); }
+  .day-card.phase-1 .day-num { color: var(--phase1); text-shadow: 0 2px 12px rgba(10, 122, 255, 0.2); }
+  .day-card.phase-2 .day-num { color: var(--phase2); text-shadow: 0 2px 12px rgba(255, 159, 10, 0.2); }
+  .day-card.phase-3 .day-num { color: var(--phase3); text-shadow: 0 2px 12px rgba(255, 69, 58, 0.2); }
 
   .day-info { flex: 1; }
 
   .day-title {
-    font-size: 17px;
-    font-weight: 600;
+    font-size: 20px;
+    font-weight: 700;
     margin-bottom: 4px;
     color: var(--text);
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
   }
 
   .day-meta {
-    font-size: 14px;
-    color: var(--muted);
-    font-weight: 400;
+    font-size: 15px;
+    color: var(--label-secondary);
+    font-weight: 500;
   }
 
   .day-right {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 10px;
+    gap: 14px;
   }
 
   .day-pills {
     display: flex;
-    gap: 6px;
+    gap: 8px;
     flex-wrap: wrap;
     justify-content: flex-end;
   }
 
   .pill {
-    font-size: 11px;
-    text-transform: uppercase;
-    font-weight: 700;
-    padding: 4px 10px;
-    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 800;
+    padding: 6px 14px;
+    border-radius: 999px;
     white-space: nowrap;
     letter-spacing: 0.02em;
+    background: rgba(255,255,255,0.7);
+    border: 1px solid rgba(255,255,255,0.9);
   }
 
-  .pill.studio { background: rgba(0, 122, 255, 0.1); color: var(--phase1); }
-  .pill.ripasso { background: rgba(255, 149, 0, 0.1); color: var(--phase2); }
-  .pill.simulazione { background: rgba(255, 59, 48, 0.1); color: var(--phase3); }
+  .pill.studio { color: var(--phase1); }
+  .pill.ripasso { color: var(--phase2); }
+  .pill.simulazione { color: var(--phase3); }
 
+  /* 3D Checkbox */
   .day-check {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--muted);
+    gap: 12px;
+    cursor: pointer;
   }
 
-  .day-check input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
-    accent-color: var(--accent);
-    cursor: pointer;
-    border-radius: 6px;
+  .day-check input { display: none; }
+
+  .check-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.03);
+    border: 2px solid rgba(0,0,0,0.1);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .day-check input:checked + .check-circle {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 4px 12px var(--accent-glow), inset 0 -2px 4px rgba(0,0,0,0.2);
+  }
+
+  .day-check input:checked + .check-circle::after {
+    content: '';
+    width: 7px;
+    height: 14px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg) translateY(-2px);
   }
 
   .day-card.completed .day-num { opacity: 0.3; }
   .day-card.completed .day-title { text-decoration: line-through; opacity: 0.4; }
+  .day-card.completed .day-meta { opacity: 0.5; }
 
   .expand-icon {
-    font-size: 20px;
-    color: #C7C7CC;
-    transition: transform 0.3s;
-    min-width: 20px;
+    font-size: 24px;
+    color: rgba(0,0,0,0.2);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    min-width: 24px;
     text-align: center;
+    font-weight: 700;
   }
 
   .day-card.open .expand-icon { transform: rotate(180deg); }
 
   .day-body {
-    display: none;
-    padding: 0 20px 20px 20px;
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .day-card.open .day-body { display: block; }
+  .day-card.open .day-body {
+    grid-template-rows: 1fr;
+  }
+
+  .day-body-inner {
+    overflow: hidden;
+    padding: 0 32px;
+  }
+  
+  .day-card.open .day-body-inner {
+    padding: 0 32px 32px 32px;
+  }
 
   .sessions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-top: 10px;
-    border-top: 1px solid var(--border);
-    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    background: rgba(255,255,255,0.4);
+    border: 1px solid rgba(255,255,255,0.6);
+    border-radius: 20px;
+    margin-top: 8px;
+    overflow: hidden;
   }
-
-  @media (max-width: 600px) { .sessions { grid-template-columns: 1fr; } }
 
   .session {
-    background: var(--bg);
-    border-radius: 14px;
-    padding: 16px;
+    padding: 20px 24px;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
   }
 
+  .session:last-child { border-bottom: none; }
+
   .session-time {
-    font-size: 12px;
-    text-transform: uppercase;
-    font-weight: 700;
+    font-size: 13px;
+    font-weight: 800;
     color: var(--muted);
     margin-bottom: 6px;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
   }
 
   .session-title {
-    font-size: 15px;
-    font-weight: 600;
-    margin-bottom: 8px;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
     color: var(--text);
+    letter-spacing: -0.02em;
   }
 
   .session-items {
     list-style: none;
-    font-size: 14px;
-    color: #3C3C43;
+    font-size: 16px;
+    color: var(--label-secondary);
     line-height: 1.5;
   }
 
-  .session-items li { margin-bottom: 6px; display: flex; }
+  .session-items li { margin-bottom: 8px; display: flex; }
   .session-items li::before {
     content: '•';
     color: var(--accent);
     font-weight: bold;
-    margin-right: 8px;
+    margin-right: 12px;
   }
 
-  /* Interattività Tabella SR */
+  /* SR Table */
   .sr-section {
     max-width: 900px;
-    margin: 60px auto 0;
+    margin: 80px auto 0;
   }
 
   .sr-section h2 {
-    font-size: 22px;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    margin-bottom: 8px;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 12px;
+    padding: 0 16px;
   }
 
   .sr-section p {
-    font-size: 14px;
-    color: var(--muted);
-    margin-bottom: 24px;
+    font-size: 16px;
+    color: var(--label-secondary);
+    margin-bottom: 32px;
+    padding: 0 16px;
   }
 
   .sr-table {
     width: 100%;
     border-collapse: collapse;
-    background: var(--surface);
-    border-radius: 18px;
-    overflow: hidden;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
   }
 
   .sr-table th {
     text-align: left;
-    padding: 16px 12px;
-    font-size: 12px;
-    font-weight: 600;
+    padding: 20px;
+    font-size: 14px;
+    font-weight: 700;
     color: var(--muted);
-    border-bottom: 1px solid var(--border);
-    background: #FAFAFA;
+    border-bottom: 2px solid rgba(0,0,0,0.05);
   }
 
   .sr-table td {
-    padding: 12px 12px;
-    border-bottom: 1px solid var(--border);
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(0,0,0,0.03);
     vertical-align: middle;
   }
 
@@ -454,95 +506,112 @@
 
   .pdf-name {
     color: var(--text);
-    font-weight: 600;
-    font-size: 14px;
-    max-width: 220px;
+    font-weight: 700;
+    font-size: 16px;
+    max-width: 200px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
   .dot {
-    width: 28px;
-    height: 28px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
-    background: var(--bg);
+    background: rgba(0,0,0,0.04);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 12px;
+    font-size: 14px;
     color: transparent;
-    font-weight: 700;
+    font-weight: 800;
     margin: auto;
-    transition: all 0.2s;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .dot.study { background: rgba(0, 122, 255, 0.1); color: var(--phase1); cursor: pointer; }
-  .dot.active { background: rgba(255, 149, 0, 0.1); color: var(--phase2); cursor: pointer; }
+  .dot.study { background: rgba(10, 122, 255, 0.1); color: var(--phase1); cursor: pointer; }
+  .dot.active { background: rgba(255, 159, 10, 0.1); color: var(--phase2); cursor: pointer; }
   
-  .dot.study:hover, .dot.active:hover { transform: scale(1.1); }
+  .dot.study:hover, .dot.active:hover { transform: scale(1.15); background: rgba(255,255,255,0.8); box-shadow: 0 4px 12px rgba(0,0,0,0.05);}
   
   .dot.done-sr {
     background: var(--accent2) !important;
     color: white !important;
+    box-shadow: 0 4px 12px rgba(48, 209, 88, 0.4);
   }
 
-  /* --- POMODORO TIMER WIDGET (Glassmorphism) --- */
+  /* --- POMODORO WIDGET (Dynamic Orb) --- */
   .pomodoro-widget {
     position: fixed;
-    bottom: 30px;
-    right: 30px;
-    background: rgba(255, 255, 255, 0.75);
-    backdrop-filter: saturate(180%) blur(20px);
-    -webkit-backdrop-filter: saturate(180%) blur(20px);
-    border: 1px solid rgba(0,0,0,0.05);
-    padding: 20px 24px;
-    border-radius: 24px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    bottom: 40px;
+    right: 50%;
+    transform: translateX(50%);
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    padding: 24px 40px;
+    border-radius: 999px; /* Pure Pill */
+    box-shadow: 0 24px 60px rgba(0,0,0,0.15), inset 0 1px 1px rgba(255,255,255,1);
     z-index: 2000;
     text-align: center;
-    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-    min-width: 240px;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    min-width: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
   }
 
   .pomodoro-widget.minimized {
-    transform: translateY(calc(100% - 20px));
+    bottom: -150px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(50%) scale(0.8);
   }
 
-  .pomodoro-header {
+  .pomodoro-summon {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    color: var(--accent);
+    font-size: 28px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 16px;
+    justify-content: center;
+    box-shadow: var(--glass-shadow);
+    z-index: 1999;
     cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
+  .pomodoro-summon:active { transform: scale(0.9); }
+  .pomodoro-widget:not(.minimized) + .pomodoro-summon { transform: scale(0); opacity: 0; }
+
+  .pomodoro-left { text-align: left; }
 
   .pomodoro-title {
-    font-size: 13px;
-    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 800;
     color: var(--accent);
-    font-weight: 700;
     letter-spacing: 0.02em;
+    text-transform: uppercase;
+    margin-bottom: 2px;
   }
 
-  .pomodoro-title.break-mode {
-    color: var(--accent2);
-  }
-
-  .pomodoro-toggle {
-    font-size: 16px;
-    color: var(--muted);
-    background: none;
-    border: none;
-    cursor: pointer;
-  }
+  .pomodoro-title.break-mode { color: var(--accent2); }
 
   .pomodoro-time {
-    font-size: 44px;
+    font-size: 48px;
     font-weight: 800;
     letter-spacing: -0.04em;
     color: var(--text);
-    margin-bottom: 20px;
     font-variant-numeric: tabular-nums;
     line-height: 1;
   }
@@ -550,36 +619,55 @@
   .pomodoro-controls {
     display: flex;
     gap: 12px;
-    justify-content: center;
   }
 
   .pomodoro-btn {
-    background: var(--bg);
-    border: none;
+    background: rgba(0,0,0,0.04);
+    border: 1px solid rgba(255,255,255,0.5);
     color: var(--text);
-    width: 44px;
-    height: 44px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 16px;
-    font-weight: 600;
-    transition: all 0.2s;
+    font-size: 20px;
+    font-weight: 800;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: inset 0 2px 4px rgba(255,255,255,0.5);
   }
 
-  .pomodoro-btn:active { background: #E5E5EA; transform: scale(0.95); }
-  .pomodoro-btn.play { background: rgba(0, 122, 255, 0.1); color: var(--accent); }
+  .pomodoro-btn:active { transform: scale(0.9); }
+  .pomodoro-btn.play { background: var(--accent); color: white; border: none; box-shadow: 0 8px 20px var(--accent-glow); }
   
+  .close-widget {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 32px;
+    height: 32px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    cursor: pointer;
+    color: var(--muted);
+    transition: transform 0.2s;
+  }
+  .close-widget:active { transform: scale(0.9); }
+
   footer {
     max-width: 900px;
-    margin: 60px auto 0;
-    font-size: 13px;
+    margin: 80px auto 0;
+    font-size: 15px;
     color: var(--muted);
     text-align: center;
-    padding-top: 24px;
-    font-weight: 500;
+    padding-top: 32px;
+    font-weight: 600;
   }
 </style>
 </head>
@@ -591,7 +679,7 @@
   <p class="subtitle">Metodo Spaced Repetition · Preparazione Intensiva</p>
 </header>
 
-<div class="progress-section">
+<div class="progress-section spatial-card">
   <div class="progress-header">
     <span class="progress-label">Avanzamento complessivo</span>
     <span class="progress-pct" id="pctLabel">0%</span>
@@ -603,40 +691,38 @@
 </div>
 
 <div class="stats-row">
-  <div class="stat">
+  <div class="stat spatial-card">
     <div class="stat-num">10</div>
     <div class="stat-label">Giorni totali</div>
   </div>
-  <div class="stat">
+  <div class="stat spatial-card">
     <div class="stat-num">19</div>
     <div class="stat-label">PDF da studiare</div>
   </div>
-  <div class="stat">
+  <div class="stat spatial-card">
     <div class="stat-num">~2</div>
     <div class="stat-label">PDF al giorno</div>
   </div>
-  <div class="stat">
+  <div class="stat spatial-card">
     <div class="stat-num">80+</div>
     <div class="stat-label">Ore stimate</div>
   </div>
 </div>
 
 <div class="legend">
-  <span class="legend-title">Fasi:</span>
-  <div class="legend-item"><div class="legend-dot" style="background:var(--phase1)"></div> Studio</div>
-  <div class="legend-item"><div class="legend-dot" style="background:var(--phase2)"></div> Consolidamento</div>
-  <div class="legend-item"><div class="legend-dot" style="background:var(--phase3)"></div> Simulazione</div>
+  <div class="legend-item"><div class="legend-dot" style="color:var(--phase1)"></div> Studio</div>
+  <div class="legend-item"><div class="legend-dot" style="color:var(--phase2)"></div> Consolidamento</div>
+  <div class="legend-item"><div class="legend-dot" style="color:var(--phase3)"></div> Simulazione</div>
 </div>
 
 <div class="days-grid" id="days">
 
   <div class="phase-label">
-    <span class="phase-title" style="color:var(--phase1)">Fase 1 — Studio intensivo</span>
+    <span class="phase-title" style="color:var(--phase1)">Studio intensivo</span>
     <div class="phase-line"></div>
-    <span class="phase-desc">Giorni 1–7</span>
   </div>
 
-  <div class="day-card phase-1" data-day="1" onclick="toggle(this)">
+  <div class="day-card spatial-card phase-1" data-day="1" onclick="toggle(this)">
     <div class="day-header">
       <div class="day-num">01</div>
       <div class="day-info">
@@ -644,48 +730,40 @@
         <div class="day-meta">Mappatura del materiale e primi concetti</div>
       </div>
       <div class="day-right">
-        <div class="day-pills">
-          <span class="pill studio">Studio</span>
-          <span class="pill ripasso">Organizzazione</span>
-        </div>
+        <div class="day-pills"><span class="pill studio">Studio</span></div>
         <label class="day-check" onclick="event.stopPropagation()">
-          <input type="checkbox" data-day="1" onchange="markDone(this)"> Fatto
+          <input type="checkbox" data-day="1" onchange="markDone(this)">
+          <div class="check-circle"></div>
         </label>
       </div>
       <div class="expand-icon">▾</div>
     </div>
     <div class="day-body">
-      <div class="sessions">
-        <div class="session">
-          <div class="session-time">Sessione 1</div>
-          <div class="session-title">Mappatura generale + PDF 1</div>
-          <ul class="session-items">
-            <li>Scorri tutti i 19 PDF (5 min/cad)</li>
-            <li>Prioritizza da 1 a 3</li>
-            <li>Lettura completa PDF 1 + schema</li>
-          </ul>
-        </div>
-        <div class="session">
-          <div class="session-time">Sessione 2</div>
-          <div class="session-title">PDF 2 — Rischio biologico</div>
-          <ul class="session-items">
-            <li>Classi agenti e DPI</li>
-            <li>Crea mappa concettuale</li>
-          </ul>
-        </div>
-        <div class="session">
-          <div class="session-time">Sessione 3</div>
-          <div class="session-title">Rielaborazione attiva</div>
-          <ul class="session-items">
-            <li>Ripasso ad alta voce PDF 1-2</li>
-            <li>Flashcard concetti chiave</li>
-          </ul>
+      <div class="day-body-inner">
+        <div class="sessions">
+          <div class="session">
+            <div class="session-time">Sessione 1</div>
+            <div class="session-title">Mappatura generale + PDF 1</div>
+            <ul class="session-items">
+              <li>Scorri tutti i 19 PDF (5 min/cad)</li>
+              <li>Prioritizza da 1 a 3</li>
+              <li>Lettura completa PDF 1 + schema</li>
+            </ul>
+          </div>
+          <div class="session">
+            <div class="session-time">Sessione 2</div>
+            <div class="session-title">PDF 2 — Rischio biologico</div>
+            <ul class="session-items">
+              <li>Classi agenti e DPI</li>
+              <li>Crea mappa concettuale</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="day-card phase-1" data-day="2" onclick="toggle(this)">
+  <div class="day-card spatial-card phase-1" data-day="2" onclick="toggle(this)">
     <div class="day-header">
       <div class="day-num">02</div>
       <div class="day-info">
@@ -693,45 +771,36 @@
         <div class="day-meta">Ritmo di crociera e citologia</div>
       </div>
       <div class="day-right">
-        <div class="day-pills">
-          <span class="pill studio">Studio</span>
-          <span class="pill ripasso">Ripasso</span>
-        </div>
+        <div class="day-pills"><span class="pill studio">Studio</span></div>
         <label class="day-check" onclick="event.stopPropagation()">
-          <input type="checkbox" data-day="2" onchange="markDone(this)"> Fatto
+          <input type="checkbox" data-day="2" onchange="markDone(this)">
+          <div class="check-circle"></div>
         </label>
       </div>
       <div class="expand-icon">▾</div>
     </div>
     <div class="day-body">
-      <div class="sessions">
-        <div class="session">
-          <div class="session-time">Sessione 1</div>
-          <div class="session-title">PDF 3 — Cellula batterica</div>
-          <ul class="session-items">
-            <li>Strutture obbligatorie/facoltative</li>
-            <li>Disegno a mano</li>
-          </ul>
-        </div>
-        <div class="session">
-          <div class="session-time">Sessione 2</div>
-          <div class="session-title">PDF 3.1 — Coltivazione</div>
-          <ul class="session-items">
-            <li>Terreni in vitro</li>
-          </ul>
-        </div>
-        <div class="session">
-          <div class="session-time">Sessione 3</div>
-          <div class="session-title">⟳ Ripasso PDF 1</div>
-          <ul class="session-items">
-            <li>Esponi senza guardare</li>
-          </ul>
+      <div class="day-body-inner">
+        <div class="sessions">
+          <div class="session">
+            <div class="session-time">Sessione 1</div>
+            <div class="session-title">PDF 3 — Cellula batterica</div>
+            <ul class="session-items">
+              <li>Strutture obbligatorie/facoltative</li>
+              <li>Disegno a mano</li>
+            </ul>
+          </div>
+          <div class="session">
+            <div class="session-time">Sessione 2</div>
+            <div class="session-title">PDF 3.1 — Coltivazione</div>
+            <ul class="session-items"><li>Terreni in vitro</li></ul>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="day-card phase-1" data-day="3" onclick="toggle(this)">
+  <div class="day-card spatial-card phase-1" data-day="3" onclick="toggle(this)">
     <div class="day-header">
       <div class="day-num">03</div>
       <div class="day-info">
@@ -739,37 +808,31 @@
         <div class="day-meta">Metabolismo e Virulenza</div>
       </div>
       <div class="day-right">
-        <div class="day-pills">
-          <span class="pill studio">Studio</span>
-          <span class="pill ripasso">Ripasso</span>
-        </div>
+        <div class="day-pills"><span class="pill studio">Studio</span></div>
         <label class="day-check" onclick="event.stopPropagation()">
-          <input type="checkbox" data-day="3" onchange="markDone(this)"> Fatto
+          <input type="checkbox" data-day="3" onchange="markDone(this)">
+          <div class="check-circle"></div>
         </label>
       </div>
       <div class="expand-icon">▾</div>
     </div>
     <div class="day-body">
-      <div class="sessions">
-        <div class="session">
-          <div class="session-time">Sessione 1</div>
-          <div class="session-title">PDF 3.2 — Crescita</div>
-          <ul class="session-items">
-            <li>Curve e metabolismi</li>
-          </ul>
-        </div>
-        <div class="session">
-          <div class="session-time">Sessione 2</div>
-          <div class="session-title">PDF 4 — Patogenicità</div>
-          <ul class="session-items">
-            <li>Tossine, capsula, adesine</li>
-          </ul>
+      <div class="day-body-inner">
+        <div class="sessions">
+          <div class="session">
+            <div class="session-title">PDF 3.2 — Crescita</div>
+            <ul class="session-items"><li>Curve e metabolismi</li></ul>
+          </div>
+          <div class="session">
+            <div class="session-title">PDF 4 — Patogenicità</div>
+            <ul class="session-items"><li>Tossine, capsula, adesine</li></ul>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="day-card phase-1" data-day="4" onclick="toggle(this)">
+  <div class="day-card spatial-card phase-1" data-day="4" onclick="toggle(this)">
     <div class="day-header">
       <div class="day-num">04</div>
       <div class="day-info">
@@ -777,31 +840,31 @@
         <div class="day-meta">Microbiota e Spore</div>
       </div>
       <div class="day-right">
-        <div class="day-pills">
-          <span class="pill studio">Studio</span>
-          <span class="pill ripasso">Ripasso</span>
-        </div>
+        <div class="day-pills"><span class="pill studio">Studio</span></div>
         <label class="day-check" onclick="event.stopPropagation()">
-          <input type="checkbox" data-day="4" onchange="markDone(this)"> Fatto
+          <input type="checkbox" data-day="4" onchange="markDone(this)">
+          <div class="check-circle"></div>
         </label>
       </div>
       <div class="expand-icon">▾</div>
     </div>
     <div class="day-body">
-      <div class="sessions">
-        <div class="session">
-          <div class="session-title">PDF 5 — Microbiota</div>
-          <ul class="session-items"><li>Pre/pro/postbiotici</li></ul>
-        </div>
-        <div class="session">
-          <div class="session-title">PDF 6.1 — Spore</div>
-          <ul class="session-items"><li>Sporulazione</li></ul>
+      <div class="day-body-inner">
+        <div class="sessions">
+          <div class="session">
+            <div class="session-title">PDF 5 — Microbiota</div>
+            <ul class="session-items"><li>Pre/pro/postbiotici</li></ul>
+          </div>
+          <div class="session">
+            <div class="session-title">PDF 6.1 — Spore</div>
+            <ul class="session-items"><li>Sporulazione</li></ul>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="day-card phase-1" data-day="5" onclick="toggle(this)">
+  <div class="day-card spatial-card phase-1" data-day="5" onclick="toggle(this)">
     <div class="day-header">
       <div class="day-num">05</div>
       <div class="day-info">
@@ -809,31 +872,31 @@
         <div class="day-meta">Biofilm e Resistenze</div>
       </div>
       <div class="day-right">
-        <div class="day-pills">
-          <span class="pill studio">Studio</span>
-          <span class="pill ripasso">Ripasso</span>
-        </div>
+        <div class="day-pills"><span class="pill studio">Studio</span></div>
         <label class="day-check" onclick="event.stopPropagation()">
-          <input type="checkbox" data-day="5" onchange="markDone(this)"> Fatto
+          <input type="checkbox" data-day="5" onchange="markDone(this)">
+          <div class="check-circle"></div>
         </label>
       </div>
       <div class="expand-icon">▾</div>
     </div>
     <div class="day-body">
-      <div class="sessions">
-        <div class="session">
-          <div class="session-title">PDF 7 — Biofilm</div>
-          <ul class="session-items"><li>Formazione e resistenza clinica</li></ul>
-        </div>
-        <div class="session">
-          <div class="session-title">PDF 7.1 — Antibiogramma</div>
-          <ul class="session-items"><li>Valutazione MIC</li></ul>
+      <div class="day-body-inner">
+        <div class="sessions">
+          <div class="session">
+            <div class="session-title">PDF 7 — Biofilm</div>
+            <ul class="session-items"><li>Formazione e resistenza clinica</li></ul>
+          </div>
+          <div class="session">
+            <div class="session-title">PDF 7.1 — Antibiogramma</div>
+            <ul class="session-items"><li>Valutazione MIC</li></ul>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="day-card phase-1" data-day="6" onclick="toggle(this)">
+  <div class="day-card spatial-card phase-1" data-day="6" onclick="toggle(this)">
     <div class="day-header">
       <div class="day-num">06</div>
       <div class="day-info">
@@ -841,30 +904,30 @@
         <div class="day-meta">Genetica e Antibiotici</div>
       </div>
       <div class="day-right">
-        <div class="day-pills">
-          <span class="pill studio">Studio</span>
-          <span class="pill ripasso">Ripasso</span>
-        </div>
+        <div class="day-pills"><span class="pill studio">Studio</span></div>
         <label class="day-check" onclick="event.stopPropagation()">
-          <input type="checkbox" data-day="6" onchange="markDone(this)"> Fatto
+          <input type="checkbox" data-day="6" onchange="markDone(this)">
+          <div class="check-circle"></div>
         </label>
       </div>
       <div class="expand-icon">▾</div>
     </div>
     <div class="day-body">
-      <div class="sessions">
-        <div class="session">
-          <div class="session-title">PDF 7.3 / Chemio</div>
-          <ul class="session-items">
-            <li>Trasformazione/Coniugazione</li>
-            <li>Meccanismi d'azione</li>
-          </ul>
+      <div class="day-body-inner">
+        <div class="sessions">
+          <div class="session">
+            <div class="session-title">PDF 7.3 / Chemio</div>
+            <ul class="session-items">
+              <li>Trasformazione/Coniugazione</li>
+              <li>Meccanismi d'azione</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="day-card phase-1" data-day="7" onclick="toggle(this)">
+  <div class="day-card spatial-card phase-1" data-day="7" onclick="toggle(this)">
     <div class="day-header">
       <div class="day-num">07</div>
       <div class="day-info">
@@ -872,35 +935,35 @@
         <div class="day-meta">Vaccini, virus, sterilizzazione</div>
       </div>
       <div class="day-right">
-        <div class="day-pills">
-          <span class="pill studio">Studio</span>
-        </div>
+        <div class="day-pills"><span class="pill studio">Studio</span></div>
         <label class="day-check" onclick="event.stopPropagation()">
-          <input type="checkbox" data-day="7" onchange="markDone(this)"> Fatto
+          <input type="checkbox" data-day="7" onchange="markDone(this)">
+          <div class="check-circle"></div>
         </label>
       </div>
       <div class="expand-icon">▾</div>
     </div>
     <div class="day-body">
-      <div class="sessions">
-        <div class="session">
-          <div class="session-title">Ultimi argomenti</div>
-          <ul class="session-items">
-            <li>Vaccini, Infezioni Nosocomiali</li>
-            <li>Batteriofagi e Virus</li>
-          </ul>
+      <div class="day-body-inner">
+        <div class="sessions">
+          <div class="session">
+            <div class="session-title">Ultimi argomenti</div>
+            <ul class="session-items">
+              <li>Vaccini, Infezioni Nosocomiali</li>
+              <li>Batteriofagi e Virus</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="phase-label" style="margin-top:10px">
-    <span class="phase-title" style="color:var(--phase2)">Fase 2 — Consolidamento</span>
+  <div class="phase-label">
+    <span class="phase-title" style="color:var(--phase2)">Consolidamento</span>
     <div class="phase-line"></div>
-    <span class="phase-desc">Giorni 8–9</span>
   </div>
 
-  <div class="day-card phase-2" data-day="8" onclick="toggle(this)">
+  <div class="day-card spatial-card phase-2" data-day="8" onclick="toggle(this)">
     <div class="day-header">
       <div class="day-num">08</div>
       <div class="day-info">
@@ -908,18 +971,17 @@
         <div class="day-meta">Prima metà del programma</div>
       </div>
       <div class="day-right">
-        <div class="day-pills">
-          <span class="pill ripasso">Ripasso MAX</span>
-        </div>
+        <div class="day-pills"><span class="pill ripasso">Ripasso</span></div>
         <label class="day-check" onclick="event.stopPropagation()">
-          <input type="checkbox" data-day="8" onchange="markDone(this)"> Fatto
+          <input type="checkbox" data-day="8" onchange="markDone(this)">
+          <div class="check-circle"></div>
         </label>
       </div>
       <div class="expand-icon">▾</div>
     </div>
   </div>
 
-  <div class="day-card phase-2" data-day="9" onclick="toggle(this)">
+  <div class="day-card spatial-card phase-2" data-day="9" onclick="toggle(this)">
     <div class="day-header">
       <div class="day-num">09</div>
       <div class="day-info">
@@ -927,24 +989,22 @@
         <div class="day-meta">Seconda metà del programma</div>
       </div>
       <div class="day-right">
-        <div class="day-pills">
-          <span class="pill ripasso">Ripasso MAX</span>
-        </div>
+        <div class="day-pills"><span class="pill ripasso">Ripasso</span></div>
         <label class="day-check" onclick="event.stopPropagation()">
-          <input type="checkbox" data-day="9" onchange="markDone(this)"> Fatto
+          <input type="checkbox" data-day="9" onchange="markDone(this)">
+          <div class="check-circle"></div>
         </label>
       </div>
       <div class="expand-icon">▾</div>
     </div>
   </div>
 
-  <div class="phase-label" style="margin-top:10px">
-    <span class="phase-title" style="color:var(--phase3)">Fase 3 — Simulazione</span>
+  <div class="phase-label">
+    <span class="phase-title" style="color:var(--phase3)">Simulazione</span>
     <div class="phase-line"></div>
-    <span class="phase-desc">Giorno 10</span>
   </div>
 
-  <div class="day-card phase-3" data-day="10" onclick="toggle(this)">
+  <div class="day-card spatial-card phase-3" data-day="10" onclick="toggle(this)">
     <div class="day-header">
       <div class="day-num">10</div>
       <div class="day-info">
@@ -952,11 +1012,10 @@
         <div class="day-meta">Target: Padronanza totale</div>
       </div>
       <div class="day-right">
-        <div class="day-pills">
-          <span class="pill simulazione">Orale</span>
-        </div>
+        <div class="day-pills"><span class="pill simulazione">Orale</span></div>
         <label class="day-check" onclick="event.stopPropagation()">
-          <input type="checkbox" data-day="10" onchange="markDone(this)"> Fatto
+          <input type="checkbox" data-day="10" onchange="markDone(this)">
+          <div class="check-circle"></div>
         </label>
       </div>
       <div class="expand-icon">▾</div>
@@ -965,7 +1024,7 @@
 
 </div>
 
-<div class="sr-section">
+<div class="sr-section spatial-card">
   <h2>Spaced Repetition</h2>
   <p>Tocca i cerchi per completare. S = Studio &nbsp; R = Ripasso</p>
   <table class="sr-table">
@@ -980,11 +1039,11 @@
 </div>
 
 <div class="pomodoro-widget" id="pomodoroWidget">
-  <div class="pomodoro-header" onclick="togglePomodoro()">
-    <span class="pomodoro-title" id="pomodoroMode">Studio 50'</span>
-    <button class="pomodoro-toggle" id="pomodoroIcon">▾</button>
+  <div class="close-widget" onclick="togglePomodoro()">✕</div>
+  <div class="pomodoro-left">
+    <div class="pomodoro-title" id="pomodoroMode">Studio</div>
+    <div class="pomodoro-time" id="pomodoroTime">50:00</div>
   </div>
-  <div class="pomodoro-time" id="pomodoroTime">50:00</div>
   <div class="pomodoro-controls">
     <button class="pomodoro-btn play" onclick="startPomodoro()" title="Avvia">▶</button>
     <button class="pomodoro-btn" onclick="pausePomodoro()" title="Pausa">⏸</button>
@@ -993,7 +1052,9 @@
   </div>
 </div>
 
-<footer>Piano 10 giorni · Stile iOS · Interazioni Sonore</footer>
+<div class="pomodoro-summon" onclick="togglePomodoro()" title="Apri Timer">⏱</div>
+
+<footer>Piano 10 giorni · Stile iOS 20 (Spatial Design) · Audio Abilitato</footer>
 
 <script>
 // --- SISTEMA AUDIO (WEB AUDIO API) ---
@@ -1016,38 +1077,34 @@ function playSound(type) {
   const now = audioCtx.currentTime;
 
   if (type === 'click') {
-    // Suono breve da tap (es: apertura menu)
     osc.type = 'sine';
-    osc.frequency.setValueAtTime(600, now);
-    osc.frequency.exponentialRampToValueAtTime(300, now + 0.05);
-    gainNode.gain.setValueAtTime(0.2, now);
+    osc.frequency.setValueAtTime(800, now);
+    osc.frequency.exponentialRampToValueAtTime(400, now + 0.05);
+    gainNode.gain.setValueAtTime(0.15, now);
     gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
     osc.start(now);
     osc.stop(now + 0.05);
   } else if (type === 'check') {
-    // Suono ascendente (successo / spunta)
     osc.type = 'sine';
-    osc.frequency.setValueAtTime(400, now);
-    osc.frequency.setValueAtTime(600, now + 0.08);
+    osc.frequency.setValueAtTime(600, now);
+    osc.frequency.setValueAtTime(900, now + 0.08);
     gainNode.gain.setValueAtTime(0.1, now);
     gainNode.gain.linearRampToValueAtTime(0.2, now + 0.08);
-    gainNode.gain.linearRampToValueAtTime(0.01, now + 0.15);
+    gainNode.gain.linearRampToValueAtTime(0.01, now + 0.2);
     osc.start(now);
-    osc.stop(now + 0.15);
+    osc.stop(now + 0.2);
   } else if (type === 'uncheck') {
-    // Suono discendente (rimozione spunta)
     osc.type = 'sine';
-    osc.frequency.setValueAtTime(500, now);
-    osc.frequency.setValueAtTime(300, now + 0.08);
+    osc.frequency.setValueAtTime(600, now);
+    osc.frequency.setValueAtTime(400, now + 0.08);
     gainNode.gain.setValueAtTime(0.1, now);
     gainNode.gain.linearRampToValueAtTime(0.1, now + 0.08);
     gainNode.gain.linearRampToValueAtTime(0.01, now + 0.15);
     osc.start(now);
     osc.stop(now + 0.15);
   } else if (type === 'action') {
-    // Suono tasti pomodoro
     osc.type = 'triangle';
-    osc.frequency.setValueAtTime(440, now);
+    osc.frequency.setValueAtTime(500, now);
     gainNode.gain.setValueAtTime(0.1, now);
     gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
     osc.start(now);
@@ -1055,7 +1112,6 @@ function playSound(type) {
   }
 }
 
-// Inizializza l'audio al primo click sulla pagina (browser policy)
 document.body.addEventListener('click', initAudio, { once: true });
 
 
@@ -1065,7 +1121,7 @@ function toggle(card) {
   card.classList.toggle('open'); 
 }
 
-const STORAGE_KEY = 'microbio_done_days_ios_snd';
+const STORAGE_KEY = 'microbio_done_days_ios20';
 let doneDays = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
 
 function buildProgressBar() {
@@ -1106,7 +1162,6 @@ function markDone(checkbox) {
   buildProgressBar();
 }
 
-// Inizializzazione Checkbox
 document.querySelectorAll('.day-check input').forEach(cb => {
   const d = parseInt(cb.dataset.day);
   if (doneDays.includes(d)) {
@@ -1133,7 +1188,7 @@ const pdfSchedule = [
   { pdf: "10-18 Altri", study: 7, reviews: [9, 10] }
 ];
 
-const SR_STORAGE_KEY = 'microbio_sr_state_ios_snd';
+const SR_STORAGE_KEY = 'microbio_sr_state_ios20';
 let srState = JSON.parse(localStorage.getItem(SR_STORAGE_KEY) || '{}');
 
 function toggleSR(id, el) {
@@ -1188,7 +1243,7 @@ function startPomodoro() {
       updatePomodoroDisplay(); 
     } else {
       pausePomodoroLogic();
-      playSound('check'); // Suono di fine timer
+      playSound('check');
       setTimeout(() => {
         alert(isStudyMode ? "Studio finito! Pausa 10 min." : "Pausa finita! Riprendi.");
         switchPomodoroMode();
@@ -1219,7 +1274,7 @@ function switchPomodoroMode() {
   pausePomodoroLogic();
   isStudyMode = !isStudyMode;
   pomodoroTime = isStudyMode ? 50 * 60 : 10 * 60;
-  modeDisplay.textContent = isStudyMode ? "Studio 50'" : "Pausa 10'";
+  modeDisplay.textContent = isStudyMode ? "Studio" : "Pausa";
   modeDisplay.className = 'pomodoro-title' + (isStudyMode ? '' : ' break-mode');
   updatePomodoroDisplay();
 }
@@ -1227,10 +1282,10 @@ function switchPomodoroMode() {
 function togglePomodoro() { 
   playSound('click');
   widget.classList.toggle('minimized'); 
-  document.getElementById('pomodoroIcon').textContent = widget.classList.contains('minimized') ? '▴' : '▾'; 
 }
 
 updatePomodoroDisplay();
+widget.classList.add('minimized');
 </script>
 </body>
 </html>
