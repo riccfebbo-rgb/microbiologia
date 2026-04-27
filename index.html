@@ -545,6 +545,93 @@
     border-top: 1px solid var(--border);
     padding-top: 24px;
   }
+
+  /* --- POMODORO TIMER WIDGET --- */
+  .pomodoro-widget {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 16px 20px;
+    border-radius: 4px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+    z-index: 100;
+    text-align: center;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    min-width: 180px;
+  }
+
+  .pomodoro-widget.minimized {
+    transform: translateY(calc(100% - 36px));
+  }
+
+  .pomodoro-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    cursor: pointer;
+  }
+
+  .pomodoro-title {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .pomodoro-title.break-mode {
+    color: var(--accent2);
+  }
+
+  .pomodoro-toggle {
+    font-size: 14px;
+    color: var(--muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    line-height: 1;
+  }
+
+  .pomodoro-time {
+    font-family: 'Syne', sans-serif;
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 16px;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+
+  .pomodoro-controls {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .pomodoro-btn {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 2px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    transition: all 0.2s;
+  }
+
+  .pomodoro-btn:hover {
+    background: rgba(255,255,255,0.08);
+    color: var(--text);
+    border-color: var(--text);
+  }
+  
+  .pomodoro-btn.play:hover { border-color: var(--accent); color: var(--accent); }
+  .pomodoro-btn.mode:hover { border-color: var(--accent2); color: var(--accent2); }
+
 </style>
 </head>
 <body>
@@ -968,6 +1055,20 @@
   </table>
 </div>
 
+<div class="pomodoro-widget" id="pomodoroWidget">
+  <div class="pomodoro-header" onclick="togglePomodoro()">
+    <span class="pomodoro-title" id="pomodoroMode">Studio 50'</span>
+    <button class="pomodoro-toggle" id="pomodoroIcon">▾</button>
+  </div>
+  <div class="pomodoro-time" id="pomodoroTime">50:00</div>
+  <div class="pomodoro-controls">
+    <button class="pomodoro-btn play" onclick="startPomodoro()" title="Avvia">▶</button>
+    <button class="pomodoro-btn" onclick="pausePomodoro()" title="Pausa">⏸</button>
+    <button class="pomodoro-btn" onclick="resetPomodoro()" title="Reset">↻</button>
+    <button class="pomodoro-btn mode" onclick="switchPomodoroMode()" title="Cambia Modalità">⟂</button>
+  </div>
+</div>
+
 <footer>Piano 10 giorni · 19 PDF · Metodo Spaced Repetition</footer>
 
 <script>
@@ -1046,6 +1147,83 @@ pdfSchedule.forEach(item => {
   tr.innerHTML = cells;
   tbody.appendChild(tr);
 });
+
+// --- LOGICA POMODORO TIMER ---
+let pomodoroTime = 50 * 60; // 50 minuti in secondi
+let isStudyMode = true;
+let timerInterval = null;
+
+const timeDisplay = document.getElementById('pomodoroTime');
+const modeDisplay = document.getElementById('pomodoroMode');
+const widget = document.getElementById('pomodoroWidget');
+const icon = document.getElementById('pomodoroIcon');
+
+// Notifica audio (suono breve)
+const alertSound = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg');
+
+function updatePomodoroDisplay() {
+  const m = Math.floor(pomodoroTime / 60).toString().padStart(2, '0');
+  const s = (pomodoroTime % 60).toString().padStart(2, '0');
+  timeDisplay.textContent = `${m}:${s}`;
+  
+  // Aggiorna anche il titolo della scheda del browser
+  const modeText = isStudyMode ? 'Studio' : 'Pausa';
+  document.title = `${m}:${s} - ${modeText}`;
+}
+
+function startPomodoro() {
+  if (timerInterval) return; // Evita timer multipli
+  timerInterval = setInterval(() => {
+    if (pomodoroTime > 0) {
+      pomodoroTime--;
+      updatePomodoroDisplay();
+    } else {
+      pausePomodoro();
+      alertSound.play().catch(e => console.log("Audio bloccato dal browser"));
+      
+      if (isStudyMode) {
+        alert("Ottimo lavoro! 50 minuti completati. Prenditi 10 minuti di pausa vera (alzati dalla sedia!).");
+      } else {
+        alert("Pausa finita! Si torna a spaccare i batteri.");
+      }
+      switchPomodoroMode();
+    }
+  }, 1000);
+}
+
+function pausePomodoro() {
+  clearInterval(timerInterval);
+  timerInterval = null;
+}
+
+function resetPomodoro() {
+  pausePomodoro();
+  pomodoroTime = isStudyMode ? 50 * 60 : 10 * 60;
+  updatePomodoroDisplay();
+}
+
+function switchPomodoroMode() {
+  isStudyMode = !isStudyMode;
+  pomodoroTime = isStudyMode ? 50 * 60 : 10 * 60;
+  
+  if (isStudyMode) {
+    modeDisplay.textContent = "Studio 50'";
+    modeDisplay.classList.remove('break-mode');
+  } else {
+    modeDisplay.textContent = "Pausa 10'";
+    modeDisplay.classList.add('break-mode');
+  }
+  resetPomodoro();
+}
+
+function togglePomodoro() {
+  widget.classList.toggle('minimized');
+  icon.textContent = widget.classList.contains('minimized') ? '▴' : '▾';
+}
+
+// Inizializza il timer al caricamento
+updatePomodoroDisplay();
+
 </script>
 </body>
 </html>
