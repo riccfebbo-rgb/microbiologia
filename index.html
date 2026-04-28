@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Piano di Studio — iOS 20 Spatial Style</title>
+<title>Piano di Studio — iOS 20 Ottimizzato</title>
 <style>
   :root {
     /* iOS 20 / visionOS Palette */
@@ -22,20 +22,19 @@
     --phase2: #FF9F0A; 
     --phase3: #FF453A; 
 
-    /* Glass Materials */
-    --glass-bg: rgba(255, 255, 255, 0.55);
-    --glass-border: rgba(255, 255, 255, 0.8);
-    --glass-shadow: 0 16px 40px rgba(0, 0, 0, 0.06);
-    --glass-blur: blur(40px) saturate(180%);
+    /* Glass Materials - Ottimizzati per performance */
+    --glass-bg: rgba(255, 255, 255, 0.65);
+    --glass-border: rgba(255, 255, 255, 0.9);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+    --glass-blur: blur(20px) saturate(150%); /* Dimezzato per fluidità */
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    /* Ambient Background Mesh */
-    background: radial-gradient(circle at 0% 0%, #E2EAFC 0%, transparent 50%), 
-                radial-gradient(circle at 100% 100%, #FDE4EB 0%, transparent 50%),
-                #F5F5F7;
+    /* Sfondo lineare invece di radiale per massima fluidità */
+    background-color: #F5F5F7;
+    background-image: linear-gradient(135deg, #E2EAFC 0%, #F5F5F7 40%, #F5F5F7 60%, #FDE4EB 100%);
     background-attachment: fixed;
     color: var(--text);
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
@@ -64,7 +63,6 @@
     padding: 8px 16px;
     border-radius: 999px;
     margin-bottom: 20px;
-    box-shadow: 0 4px 12px var(--accent-glow);
   }
 
   h1 {
@@ -95,8 +93,10 @@
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
     border: 1px solid var(--glass-border);
-    border-radius: 32px; /* Super rounded corners */
+    border-radius: 32px;
     box-shadow: var(--glass-shadow);
+    /* Hardware acceleration per componenti fissi */
+    transform: translateZ(0); 
   }
 
   .progress-section {
@@ -127,24 +127,21 @@
     color: var(--accent);
     letter-spacing: -0.03em;
     line-height: 1;
-    text-shadow: 0 2px 10px var(--accent-glow);
   }
 
   .progress-track {
     height: 14px;
-    background: rgba(0,0,0,0.05);
+    background: rgba(0,0,0,0.06);
     border-radius: 999px;
     overflow: hidden;
     margin-bottom: 20px;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
   }
 
   .progress-fill {
     height: 100%;
     background: linear-gradient(90deg, #0A7AFF, #5E5CE6);
     border-radius: 999px;
-    transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1); /* Spring-like */
-    box-shadow: 0 0 10px var(--accent-glow);
+    transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .progress-days {
@@ -156,8 +153,8 @@
     flex: 1;
     height: 40px;
     border-radius: 12px;
-    background: rgba(255,255,255,0.4);
-    border: 1px solid rgba(255,255,255,0.5);
+    background: rgba(255,255,255,0.6);
+    border: 1px solid rgba(255,255,255,0.8);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -165,16 +162,16 @@
     font-weight: 700;
     color: var(--muted);
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s;
+    will-change: transform;
   }
 
-  .progress-day:hover { transform: translateY(-2px); background: rgba(255,255,255,0.8); }
+  .progress-day:hover { transform: translateY(-2px); background: rgba(255,255,255,1); }
 
   .progress-day.done {
     background: linear-gradient(135deg, #0A7AFF, #005ECC);
     color: white;
     border: none;
-    box-shadow: 0 4px 12px var(--accent-glow);
   }
 
   .stats-row {
@@ -233,7 +230,6 @@
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    box-shadow: 0 0 8px currentColor;
   }
 
   .phase-label {
@@ -254,7 +250,7 @@
   .phase-line {
     flex: 1;
     height: 2px;
-    background: linear-gradient(90deg, rgba(0,0,0,0.05), transparent);
+    background: rgba(0,0,0,0.05);
   }
 
   .days-grid {
@@ -267,12 +263,14 @@
 
   .day-card {
     padding: 0;
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s;
+    /* Solo transform per fluidità assoluta */
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     cursor: pointer;
     overflow: hidden;
+    will-change: transform; 
   }
 
-  .day-card:active { transform: scale(0.96); box-shadow: 0 4px 16px rgba(0,0,0,0.04); }
+  .day-card:active { transform: scale(0.97); }
 
   .day-header {
     display: flex;
@@ -291,9 +289,9 @@
     letter-spacing: -0.04em;
   }
 
-  .day-card.phase-1 .day-num { color: var(--phase1); text-shadow: 0 2px 12px rgba(10, 122, 255, 0.2); }
-  .day-card.phase-2 .day-num { color: var(--phase2); text-shadow: 0 2px 12px rgba(255, 159, 10, 0.2); }
-  .day-card.phase-3 .day-num { color: var(--phase3); text-shadow: 0 2px 12px rgba(255, 69, 58, 0.2); }
+  .day-card.phase-1 .day-num { color: var(--phase1); }
+  .day-card.phase-2 .day-num { color: var(--phase2); }
+  .day-card.phase-3 .day-num { color: var(--phase3); }
 
   .day-info { flex: 1; }
 
@@ -332,15 +330,14 @@
     border-radius: 999px;
     white-space: nowrap;
     letter-spacing: 0.02em;
-    background: rgba(255,255,255,0.7);
-    border: 1px solid rgba(255,255,255,0.9);
+    background: rgba(255,255,255,0.8);
+    border: 1px solid rgba(255,255,255,1);
   }
 
   .pill.studio { color: var(--phase1); }
   .pill.ripasso { color: var(--phase2); }
   .pill.simulazione { color: var(--phase3); }
 
-  /* 3D Checkbox */
   .day-check {
     display: flex;
     align-items: center;
@@ -356,17 +353,15 @@
     border-radius: 50%;
     background: rgba(0,0,0,0.03);
     border: 2px solid rgba(0,0,0,0.1);
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: background 0.2s, border-color 0.2s;
   }
 
   .day-check input:checked + .check-circle {
     background: var(--accent);
     border-color: var(--accent);
-    box-shadow: 0 4px 12px var(--accent-glow), inset 0 -2px 4px rgba(0,0,0,0.2);
   }
 
   .day-check input:checked + .check-circle::after {
@@ -385,7 +380,7 @@
   .expand-icon {
     font-size: 24px;
     color: rgba(0,0,0,0.2);
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     min-width: 24px;
     text-align: center;
     font-weight: 700;
@@ -396,7 +391,7 @@
   .day-body {
     display: grid;
     grid-template-rows: 0fr;
-    transition: grid-template-rows 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: grid-template-rows 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .day-card.open .day-body {
@@ -415,8 +410,8 @@
   .sessions {
     display: flex;
     flex-direction: column;
-    background: rgba(255,255,255,0.4);
-    border: 1px solid rgba(255,255,255,0.6);
+    background: rgba(255,255,255,0.5);
+    border: 1px solid rgba(255,255,255,0.8);
     border-radius: 20px;
     margin-top: 8px;
     overflow: hidden;
@@ -526,21 +521,21 @@
     color: transparent;
     font-weight: 800;
     margin: auto;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.2s, background 0.2s;
+    will-change: transform;
   }
 
   .dot.study { background: rgba(10, 122, 255, 0.1); color: var(--phase1); cursor: pointer; }
   .dot.active { background: rgba(255, 159, 10, 0.1); color: var(--phase2); cursor: pointer; }
   
-  .dot.study:hover, .dot.active:hover { transform: scale(1.15); background: rgba(255,255,255,0.8); box-shadow: 0 4px 12px rgba(0,0,0,0.05);}
+  .dot.study:hover, .dot.active:hover { transform: scale(1.1); background: rgba(255,255,255,0.9); }
   
   .dot.done-sr {
     background: var(--accent2) !important;
     color: white !important;
-    box-shadow: 0 4px 12px rgba(48, 209, 88, 0.4);
   }
 
-  /* --- POMODORO WIDGET (Dynamic Orb) --- */
+  /* --- POMODORO WIDGET --- */
   .pomodoro-widget {
     position: fixed;
     bottom: 40px;
@@ -551,23 +546,23 @@
     -webkit-backdrop-filter: var(--glass-blur);
     border: 1px solid var(--glass-border);
     padding: 24px 40px;
-    border-radius: 999px; /* Pure Pill */
-    box-shadow: 0 24px 60px rgba(0,0,0,0.15), inset 0 1px 1px rgba(255,255,255,1);
+    border-radius: 999px;
+    box-shadow: var(--glass-shadow);
     z-index: 2000;
     text-align: center;
-    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s;
     min-width: 320px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 20px;
+    will-change: transform, opacity;
   }
 
   .pomodoro-widget.minimized {
-    bottom: -150px;
     opacity: 0;
     pointer-events: none;
-    transform: translateX(50%) scale(0.8);
+    transform: translate(50%, 40px) scale(0.9);
   }
 
   .pomodoro-summon {
@@ -589,10 +584,11 @@
     box-shadow: var(--glass-shadow);
     z-index: 1999;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.2s, opacity 0.3s;
+    will-change: transform, opacity;
   }
   .pomodoro-summon:active { transform: scale(0.9); }
-  .pomodoro-widget:not(.minimized) + .pomodoro-summon { transform: scale(0); opacity: 0; }
+  .pomodoro-widget:not(.minimized) + .pomodoro-summon { transform: scale(0); opacity: 0; pointer-events: none;}
 
   .pomodoro-left { text-align: left; }
 
@@ -631,15 +627,15 @@
     cursor: pointer;
     font-size: 20px;
     font-weight: 800;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.2s;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: inset 0 2px 4px rgba(255,255,255,0.5);
+    will-change: transform;
   }
 
   .pomodoro-btn:active { transform: scale(0.9); }
-  .pomodoro-btn.play { background: var(--accent); color: white; border: none; box-shadow: 0 8px 20px var(--accent-glow); }
+  .pomodoro-btn.play { background: var(--accent); color: white; border: none; }
   
   .close-widget {
     position: absolute;
@@ -710,9 +706,9 @@
 </div>
 
 <div class="legend">
-  <div class="legend-item"><div class="legend-dot" style="color:var(--phase1)"></div> Studio</div>
-  <div class="legend-item"><div class="legend-dot" style="color:var(--phase2)"></div> Consolidamento</div>
-  <div class="legend-item"><div class="legend-dot" style="color:var(--phase3)"></div> Simulazione</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--phase1)"></div> Studio</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--phase2)"></div> Consolidamento</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--phase3)"></div> Simulazione</div>
 </div>
 
 <div class="days-grid" id="days">
@@ -1054,10 +1050,10 @@
 
 <div class="pomodoro-summon" onclick="togglePomodoro()" title="Apri Timer">⏱</div>
 
-<footer>Piano 10 giorni · Stile iOS 20 (Spatial Design) · Audio Abilitato</footer>
+<footer>Piano 10 giorni · Stile iOS Ottimizzato · Audio Fluid</footer>
 
 <script>
-// --- SISTEMA AUDIO (WEB AUDIO API) ---
+// --- SISTEMA AUDIO ---
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 let audioCtx;
 
@@ -1121,7 +1117,7 @@ function toggle(card) {
   card.classList.toggle('open'); 
 }
 
-const STORAGE_KEY = 'microbio_done_days_ios20';
+const STORAGE_KEY = 'microbio_done_days_ios_opt';
 let doneDays = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
 
 function buildProgressBar() {
@@ -1188,7 +1184,7 @@ const pdfSchedule = [
   { pdf: "10-18 Altri", study: 7, reviews: [9, 10] }
 ];
 
-const SR_STORAGE_KEY = 'microbio_sr_state_ios20';
+const SR_STORAGE_KEY = 'microbio_sr_state_ios_opt';
 let srState = JSON.parse(localStorage.getItem(SR_STORAGE_KEY) || '{}');
 
 function toggleSR(id, el) {
